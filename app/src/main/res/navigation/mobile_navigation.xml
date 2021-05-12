@@ -3,23 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_myRecipes">
+
+    <!-- Actually used navigation fragments -->
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="hu.bme.aut.android.cookbook.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_myRecipes"
+        android:name="hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment"
+        android:label="@string/menu_myRecipes"
+        tools:layout="@layout/fragment_myrecipes" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="hu.bme.aut.android.cookbook.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_othersRecipes"
+        android:name="hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment"
+        android:label="@string/menu_othersRecipes"
+        tools:layout="@layout/fragment_othersrecipes" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="hu.bme.aut.android.cookbook.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_login"
+        android:name="hu.bme.aut.android.cookbook.ui.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="hu.bme.aut.android.cookbook.ui.logout.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout" />
 </navigation>

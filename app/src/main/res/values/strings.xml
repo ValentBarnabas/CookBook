@@ -10,4 +10,12 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="menu_myRecipes">My Recipes</string>
+    <string name="menu_othersRecipes">Others Recipes</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_logout">Logout</string>
+
+    <string name="authentication_registration_successfull">Registration successfull</string>
+    <string name="authentication_login_successfull">Login successfull</string>
 </resources>
