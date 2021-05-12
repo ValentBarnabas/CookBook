@@ -18,4 +18,11 @@
 
     <string name="authentication_registration_successfull">Registration successfull</string>
     <string name="authentication_login_successfull">Login successfull</string>
+
+    <string name="create_recipe_text">Add Recipe</string>
+    <string name="create_recipe_set_image">Set Image</string>
+    <string name="create_recipe_title_hint">Title</string>
+    <string name="create_recipe_ingredients_hint">Ingredients</string>
+    <string name="create_recipe_method_hint">Method</string>
+    <string name="create_recipe_success">Recipe uploaded!</string>
 </resources>

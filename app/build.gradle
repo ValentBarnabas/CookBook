@@ -52,9 +52,12 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.7.0')  //Firebase implementation
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
 
     implementation 'com.flaviofaria:kenburnsview:1.0.7'                 //glide implementation for nicer views
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

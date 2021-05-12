@@ -1,21 +1,25 @@
 package hu.bme.aut.android.cookbook
 
 import android.os.Bundle
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.replace
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
+import hu.bme.aut.android.cookbook.ui.CreateRecipeFragment
 
+//TODO: fix binding.appBarRecipes.fab.setOnClickListener, check if uploading and downloading recipes works
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,9 +33,12 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(binding.root)
         setSupportActionBar(binding.appBarRecipes.toolbar)
 
-        binding.appBarRecipes.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        binding.appBarRecipes.fab.setOnClickListener {
+            val manager: FragmentManager = supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.container, CreateRecipeFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 //        binding.navView.setNavigationItemSelectedListener(this)   //TODO: ez ha be van rakva, akkor nem cserelodnek az oldalak, do something, or leave out
 
@@ -53,11 +60,16 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         when(item.itemId) {
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
-//                startActivity(Intent(this, ))
-//                finish()
+//                Auth.GoogleSignInApi.signOut(apiClient);
             }
             R.id.nav_login -> {
 //                startActivity(Intent(this@RecipesActivity, LoginActivity::class.java))  //Nem kell, nekem nem ebbol kezdodik, hanem megnyitodik csak kivanatra
+            }
+            R.id.nav_myRecipes -> {
+                //get my recipes from persistent storage
+            }
+            R.id.nav_othersRecipes -> {
+                //get others recipes from firebase
             }
         }
 
