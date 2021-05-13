@@ -15,6 +15,7 @@
     <string name="menu_othersRecipes">Others Recipes</string>
     <string name="menu_login">Login</string>
     <string name="menu_logout">Logout</string>
+    <string name="nav_createRecipe">Create Recipe</string>
 
     <string name="authentication_registration_successfull">Registration successfull</string>
     <string name="authentication_login_successfull">Login successfull</string>

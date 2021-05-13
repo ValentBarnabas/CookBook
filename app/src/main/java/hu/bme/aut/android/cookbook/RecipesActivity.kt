@@ -1,14 +1,14 @@
 package hu.bme.aut.android.cookbook
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.replace
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,9 +17,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
-import hu.bme.aut.android.cookbook.ui.CreateRecipeFragment
+import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
 
-//TODO: fix binding.appBarRecipes.fab.setOnClickListener, check if uploading and downloading recipes works
+//TODO: check if uploading and downloading recipes works, fix being able to open new recipe multiple times
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,15 +31,8 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         super.onCreate(savedInstanceState)
         binding = ActivityRecipesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        setSupportActionBar(binding.appBarRecipes.toolbar)
+        setSupportActionBar(binding.toolbar)
 
-        binding.appBarRecipes.fab.setOnClickListener {
-            val manager: FragmentManager = supportFragmentManager
-            val transaction = manager.beginTransaction()
-            transaction.replace(R.id.container, CreateRecipeFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
 //        binding.navView.setNavigationItemSelectedListener(this)   //TODO: ez ha be van rakva, akkor nem cserelodnek az oldalak, do something, or leave out
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -49,11 +42,19 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(      //TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login
             setOf(
-                R.id.nav_myRecipes, R.id.nav_othersRecipes, R.id.nav_login, R.id.nav_logout
+                R.id.nav_myRecipes, R.id.nav_othersRecipes, R.id.nav_login, R.id.nav_logout, R.id.nav_createRecipe
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+//        binding.fab.setOnClickListener {
+//            val manager: FragmentManager = supportFragmentManager
+//            val transaction = manager.beginTransaction()
+//            transaction.replace(R.id.drawer_layout, CreateRecipeFragment())
+//            transaction.addToBackStack(null)
+//            transaction.commit()
+//        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

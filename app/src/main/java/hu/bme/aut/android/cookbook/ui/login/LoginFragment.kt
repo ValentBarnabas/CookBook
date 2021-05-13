@@ -70,4 +70,9 @@ class LoginFragment : Fragment() {
             }
             .addOnFailureListener { exception -> Toast.makeText(currContext, exception.message, Toast.LENGTH_LONG).show()}
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

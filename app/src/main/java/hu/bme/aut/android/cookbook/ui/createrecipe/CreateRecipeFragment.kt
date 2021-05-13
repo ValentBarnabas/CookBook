@@ -1,4 +1,4 @@
-package hu.bme.aut.android.cookbook.ui
+package hu.bme.aut.android.cookbook.ui.createrecipe
 
 import android.app.Activity
 import android.content.Context
@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,16 +21,11 @@ import hu.bme.aut.android.cookbook.Extensions.validateNonEmpty
 import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentCreateRecipeBinding
-import hu.bme.aut.android.cookbook.databinding.FragmentMyrecipesBinding
 import java.io.ByteArrayOutputStream
 import java.net.URLEncoder
 import java.util.*
 
 class CreateRecipeFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     companion object {
         private const val REQUEST_CODE = 101
@@ -44,7 +40,7 @@ class CreateRecipeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View? {
-        currContext = container!!.context
+        currContext = container!!.getContext()
         _binding = FragmentCreateRecipeBinding.inflate(inflater, container, false)
         val root = binding.root
 
@@ -90,7 +86,9 @@ class CreateRecipeFragment : Fragment() {
 
     private fun attachClick() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(takePictureIntent, REQUEST_CODE)
+        startActivityForResult(takePictureIntent,
+            REQUEST_CODE
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {   //TODO: ez nem activity, hanem fragment result
@@ -130,6 +128,11 @@ class CreateRecipeFragment : Fragment() {
             .addOnSuccessListener { downloadUri ->
                 uploadPost(downloadUri.toString())
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

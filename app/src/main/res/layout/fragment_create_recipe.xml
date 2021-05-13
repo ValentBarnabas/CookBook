@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CreateRecipeFragment"
+    tools:context=".ui.createrecipe.CreateRecipeFragment"
     android:orientation="horizontal">
 
     <EditText
@@ -19,20 +19,20 @@
     <EditText
         android:id="@+id/etMethod"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/create_recipe_method_hint"/>
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text = "@string/create_recipe_text"/>
     <Button
         android:id="@+id/btnSetImage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_recipe_set_image"/>
 
