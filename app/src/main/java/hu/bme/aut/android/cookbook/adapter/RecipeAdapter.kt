@@ -22,7 +22,7 @@ class RecipeAdapter(private val context: Context) :
     private val recipeList: MutableList<Recipe> = mutableListOf()
     private var lastPosition = -1
 
-    class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {        //TODO: possible place of failure
         val tvAuthor: TextView = binding.tvAuthor
         val tvTitle: TextView = binding.tvTitle
         val tvBody: TextView = binding.tvBody

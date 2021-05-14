@@ -23,17 +23,11 @@ import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
 
 class MyRecipesFragment : Fragment() {
 
-//    private lateinit var myRecipesViewModel: MyRecipesViewModel
-//    private lateinit var recipeAdapter: RecipeAdapter
-
     private lateinit var currContext: Context
     private var _binding: FragmentMyrecipesBinding? = null
     private val binding get() = _binding!!
 
-    private var recyclerView : RecyclerView? = null
-    private var gridLayoutManager : GridLayoutManager? = null
-    private var arrayList : ArrayList<Recipe>? = null
-    private var recipeAdapter: RecipeAdapter? = null
+    private lateinit var recipeAdapter : RecipeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,40 +38,29 @@ class MyRecipesFragment : Fragment() {
         _binding = FragmentMyrecipesBinding.inflate(inflater, container, false)
         val root = binding.root
 
-//        myRecipesViewModel =  ViewModelProvider(this).get(MyRecipesViewModel::class.java)
-
-        recyclerView = root.findViewById(R.id.rvMyRecipes)
-        gridLayoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
-        recyclerView?.layoutManager = gridLayoutManager
-        recyclerView?.setHasFixedSize(true)
-        arrayList = ArrayList()
-//        arrayList = setDataInList()
         recipeAdapter = RecipeAdapter(currContext)
-        recyclerView?.adapter = recipeAdapter
+        binding.rvMyRecipes.layoutManager = GridLayoutManager(currContext,2, GridLayoutManager.VERTICAL, false).apply {
+            reverseLayout = false
+            stackFromEnd = false
+        }
+//        binding.rvMyRecipes.layoutManager = LinearLayoutManager(currContext).apply {
+//            reverseLayout = true
+//            stackFromEnd = true
+//        }
+        binding.rvMyRecipes.adapter = recipeAdapter
 
-        initPostsListener()
+        initRecipesListener()
 
         binding.fabAddRecipe.setOnClickListener{
             (activity as RecipesActivity).addOnFragment(CreateRecipeFragment())
         }
 
-//        recipeAdapter = RecipeAdapter(currContext)
-//        binding.appBarRecipes.contentRecipes.rvRecipes.layoutManager = LinearLayoutManager(currContext).apply {
-//            stackFromEnd = true
-//        }
-//        binding.appBarRecipes.contentRecipes.rvRecipes.adapter = recipeAdapter
-
-
         return root
     }
 
-//    private fun setDataInList() : ArrayList<Recipe> {
-//
-//    }
-
-    private fun initPostsListener() {
+    private fun initRecipesListener() {
         val db = Firebase.firestore
-        db.collection("posts")
+        db.collection("recipes")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Toast.makeText(currContext, e.toString(), Toast.LENGTH_SHORT).show()

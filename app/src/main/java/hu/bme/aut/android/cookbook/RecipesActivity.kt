@@ -4,30 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toolbar
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
-import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
 import hu.bme.aut.android.cookbook.ui.login.LoginFragment
 import hu.bme.aut.android.cookbook.ui.logout.LogoutFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
-//TODO: check if uploading and downloading recipes works
-//TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login
+//TODO: fix MyRecipesFragment.initRecipesListener, or whatever causes the crashes
+//TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login. Belogolva a felhasznalo neve latsszon a nav draweren, kilogolva az Anonim
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,6 +42,18 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         if(savedInstanceState == null){     //Prevents changing fragment on device rotating
             supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, MyRecipesFragment()).commit()
             binding.navView.setCheckedItem(R.id.nav_myRecipes)
+        }
+
+        if(FirebaseAuth.getInstance().currentUser == null) {
+            val tvFirst : TextView? = findViewById(R.id.navHeaderMain_tvFirstLine)
+            val tvSecond: TextView? = findViewById(R.id.navHeaderMain_tvSecondLine)
+            tvFirst?.text = R.string.nav_header_title_no_auth.toString()
+            tvSecond?.text = R.string.nav_header_subtitle_no_auth.toString()
+        } else {
+            val tvFirst : TextView? = findViewById(R.id.navHeaderMain_tvFirstLine)
+            val tvSecond: TextView? = findViewById(R.id.navHeaderMain_tvSecondLine)
+            tvFirst?.text = FirebaseAuth.getInstance().currentUser.uid.toString()
+            tvSecond?.text = FirebaseAuth.getInstance().currentUser.email.toString()
         }
 
     }

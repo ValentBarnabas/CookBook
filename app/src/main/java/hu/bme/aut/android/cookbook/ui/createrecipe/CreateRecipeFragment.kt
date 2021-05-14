@@ -25,6 +25,8 @@ import java.io.ByteArrayOutputStream
 import java.net.URLEncoder
 import java.util.*
 
+//TODO: add created recipe to persistent database too
+
 class CreateRecipeFragment : Fragment() {
 
     companion object {
@@ -56,7 +58,8 @@ class CreateRecipeFragment : Fragment() {
         }
 
         if (binding.ivImage.visibility != View.VISIBLE) {
-            uploadPost()
+            Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_add_image), Toast.LENGTH_LONG).show()
+//            uploadPost()
         } else {
             try {
                 uploadPostWithImage()
@@ -78,8 +81,6 @@ class CreateRecipeFragment : Fragment() {
             .add(newRecipe)
             .addOnSuccessListener {
                 Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
-                //TODO: pop fragment stack
-//                finish()
             }
             .addOnFailureListener { e -> Toast.makeText(currContext, e.toString(), Toast.LENGTH_LONG).show() }
     }
@@ -91,7 +92,7 @@ class CreateRecipeFragment : Fragment() {
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {   //TODO: ez nem activity, hanem fragment result
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {   //Handles camera response, and shows image in imageView
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
             return
@@ -127,6 +128,9 @@ class CreateRecipeFragment : Fragment() {
             }
             .addOnSuccessListener { downloadUri ->
                 uploadPost(downloadUri.toString())
+                Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
+                val fragMan = activity?.supportFragmentManager
+                fragMan?.popBackStack()
             }
     }
 

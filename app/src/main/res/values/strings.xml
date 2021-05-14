@@ -26,4 +26,8 @@
     <string name="create_recipe_ingredients_hint">Ingredients</string>
     <string name="create_recipe_method_hint">Method</string>
     <string name="create_recipe_success">Recipe uploaded!</string>
+    <string name="create_recipe_add_image">Add image before uploading</string>
+
+    <string name="nav_header_title_no_auth">Anonimus</string>
+    <string name="nav_header_subtitle_no_auth">-</string>
 </resources>
