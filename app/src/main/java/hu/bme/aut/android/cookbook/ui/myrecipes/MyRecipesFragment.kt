@@ -15,9 +15,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.cookbook.R
+import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentMyrecipesBinding
+import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
 
 class MyRecipesFragment : Fragment() {
 
@@ -54,6 +56,10 @@ class MyRecipesFragment : Fragment() {
         recyclerView?.adapter = recipeAdapter
 
         initPostsListener()
+
+        binding.fabAddRecipe.setOnClickListener{
+            (activity as RecipesActivity).addOnFragment(CreateRecipeFragment())
+        }
 
 //        recipeAdapter = RecipeAdapter(currContext)
 //        binding.appBarRecipes.contentRecipes.rvRecipes.layoutManager = LinearLayoutManager(currContext).apply {
