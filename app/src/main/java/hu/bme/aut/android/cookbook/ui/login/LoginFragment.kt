@@ -11,7 +11,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import hu.bme.aut.android.cookbook.Extensions.validateNonEmpty
 import hu.bme.aut.android.cookbook.R
+import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.databinding.FragmentLoginBinding
+import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
+import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 
 class LoginFragment : Fragment() {
 
@@ -62,11 +65,7 @@ class LoginFragment : Fragment() {
             .signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
             .addOnSuccessListener {
                 Toast.makeText(currContext, context?.getString(R.string.authentication_login_successfull), Toast.LENGTH_LONG).show()
-                fragmentManager?.popBackStackImmediate();       //TODO: itt nem popBackStackImmediate(), hanem becsukni ezt, es visszamenni a sajat receptekbe
-//                        fragmentManager?.beginTransaction()?.apply {
-//                                replace(, MyRecipesFragment())
-//                                commit()
-//                        }
+                (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
             }
             .addOnFailureListener { exception -> Toast.makeText(currContext, exception.message, Toast.LENGTH_LONG).show()}
     }

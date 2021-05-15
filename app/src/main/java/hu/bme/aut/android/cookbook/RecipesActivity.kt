@@ -19,6 +19,7 @@ import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
 //TODO: fix MyRecipesFragment.initRecipesListener, or whatever causes the crashes
 //TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login. Belogolva a felhasznalo neve latsszon a nav draweren, kilogolva az Anonim
+//TODO: implement opening recipes by clicking on them
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -103,6 +104,13 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragmentContainer.id, fragment)
         transaction.addToBackStack(null)
+        binding.navView.setCheckedItem(fragment.id)
+        transaction.commit()
+    }
+    fun swapToFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(binding.fragmentContainer.id, fragment)
+        binding.navView.setCheckedItem(fragment.id)
         transaction.commit()
     }
 }

@@ -5,23 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
 import hu.bme.aut.android.cookbook.data.Recipe
-import hu.bme.aut.android.cookbook.databinding.FragmentCreateRecipeBinding
-import hu.bme.aut.android.cookbook.databinding.FragmentLoginBinding
-import hu.bme.aut.android.cookbook.databinding.FragmentMyrecipesBinding
 import hu.bme.aut.android.cookbook.databinding.FragmentOthersrecipesBinding
 
 class OthersRecipesFragment : Fragment() {
@@ -42,10 +35,7 @@ class OthersRecipesFragment : Fragment() {
         val root = binding.root
 
         recipeAdapter = RecipeAdapter(currContext)
-        binding.rvOthersRecipes.layoutManager = LinearLayoutManager(currContext).apply {
-            reverseLayout = true
-            stackFromEnd = true
-        }
+        binding.rvOthersRecipes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rvOthersRecipes.adapter = recipeAdapter
 
         initRecipesListener()
@@ -70,6 +60,11 @@ class OthersRecipesFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    override fun onResume() {
+        initRecipesListener()
+        super.onResume()
     }
 
     override fun onDestroyView() {

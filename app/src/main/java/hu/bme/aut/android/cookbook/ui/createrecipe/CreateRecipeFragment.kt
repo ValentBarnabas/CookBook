@@ -12,15 +12,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isGone
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.cookbook.Extensions.validateNonEmpty
 import hu.bme.aut.android.cookbook.R
+import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentCreateRecipeBinding
+import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import java.io.ByteArrayOutputStream
 import java.net.URLEncoder
 import java.util.*
@@ -131,6 +132,7 @@ class CreateRecipeFragment : Fragment() {
                 Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
                 val fragMan = activity?.supportFragmentManager
                 fragMan?.popBackStack()
+                (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
             }
     }
 

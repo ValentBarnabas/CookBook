@@ -8,13 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
 import hu.bme.aut.android.cookbook.data.Recipe
@@ -39,10 +36,7 @@ class MyRecipesFragment : Fragment() {
         val root = binding.root
 
         recipeAdapter = RecipeAdapter(currContext)
-        binding.rvMyRecipes.layoutManager = GridLayoutManager(currContext,2, GridLayoutManager.VERTICAL, false).apply {
-            reverseLayout = false
-            stackFromEnd = false
-        }
+        binding.rvMyRecipes.layoutManager = GridLayoutManager(currContext,2, GridLayoutManager.VERTICAL, false)
 //        binding.rvMyRecipes.layoutManager = LinearLayoutManager(currContext).apply {
 //            reverseLayout = true
 //            stackFromEnd = true
@@ -75,6 +69,11 @@ class MyRecipesFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    override fun onResume() {
+        initRecipesListener()
+        super.onResume()
     }
 
     override fun onDestroyView() {
