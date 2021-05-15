@@ -61,6 +61,10 @@ class RecipeAdapter(private val context: Context) :
         submitList((recipeList))
     }
 
+    fun removeAllItems() {
+        for (item in recipeList) recipeList.removeAt(0)
+    }
+
     private fun setAnimation(viewToAnimate: View, position: Int) {
         if (position > lastPosition) {
             val animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left)

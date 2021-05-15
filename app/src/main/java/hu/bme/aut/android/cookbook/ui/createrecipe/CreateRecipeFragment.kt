@@ -34,7 +34,6 @@ class CreateRecipeFragment : Fragment() {
         private const val REQUEST_CODE = 101
     }
 
-    private lateinit var currContext: Context
     private var _binding: FragmentCreateRecipeBinding? = null
     private val binding get() = _binding!!
 
@@ -43,7 +42,6 @@ class CreateRecipeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View? {
-        currContext = container!!.getContext()
         _binding = FragmentCreateRecipeBinding.inflate(inflater, container, false)
         val root = binding.root
 
@@ -59,7 +57,7 @@ class CreateRecipeFragment : Fragment() {
         }
 
         if (binding.ivImage.visibility != View.VISIBLE) {
-            Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_add_image), Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.create_recipe_add_image), Toast.LENGTH_LONG).show()
 //            uploadPost()
         } else {
             try {
@@ -81,9 +79,9 @@ class CreateRecipeFragment : Fragment() {
         db.collection("recipes")
             .add(newRecipe)
             .addOnSuccessListener {
-                Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
             }
-            .addOnFailureListener { e -> Toast.makeText(currContext, e.toString(), Toast.LENGTH_LONG).show() }
+            .addOnFailureListener { e -> Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show() }
     }
 
     private fun attachClick() {
@@ -118,7 +116,7 @@ class CreateRecipeFragment : Fragment() {
 
         newImageRef.putBytes(imageInBytes)
             .addOnFailureListener { exception ->
-                Toast.makeText(currContext, exception.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
             }
             .continueWithTask { task ->
                 if (!task.isSuccessful) {
@@ -129,7 +127,7 @@ class CreateRecipeFragment : Fragment() {
             }
             .addOnSuccessListener { downloadUri ->
                 uploadPost(downloadUri.toString())
-                Toast.makeText(currContext, currContext?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
                 val fragMan = activity?.supportFragmentManager
                 fragMan?.popBackStack()
                 (activity as RecipesActivity).swapToFragment(MyRecipesFragment())

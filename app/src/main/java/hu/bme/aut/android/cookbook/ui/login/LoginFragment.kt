@@ -21,13 +21,11 @@ class LoginFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private lateinit var currContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View? {
-        currContext = container!!.getContext()
         firebaseAuth = FirebaseAuth.getInstance()
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val root = binding.root
@@ -52,10 +50,10 @@ class LoginFragment : Fragment() {
                     .build()
                 firebaseUser?.updateProfile(profileChangeRequest)
 
-                Toast.makeText(currContext, context?.getString(R.string.authentication_registration_successfull), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), context?.getString(R.string.authentication_registration_successfull), Toast.LENGTH_LONG).show()
             }
 
-            .addOnFailureListener { exception -> Toast.makeText(currContext, exception.message, Toast.LENGTH_LONG).show() }
+            .addOnFailureListener { exception -> Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show() }
     }
 
     private fun loginClick() {
@@ -64,10 +62,10 @@ class LoginFragment : Fragment() {
         firebaseAuth
             .signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
             .addOnSuccessListener {
-                Toast.makeText(currContext, context?.getString(R.string.authentication_login_successfull), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), context?.getString(R.string.authentication_login_successfull), Toast.LENGTH_LONG).show()
                 (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
             }
-            .addOnFailureListener { exception -> Toast.makeText(currContext, exception.message, Toast.LENGTH_LONG).show()}
+            .addOnFailureListener { exception -> Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()}
     }
 
     override fun onDestroyView() {

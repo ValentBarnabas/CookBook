@@ -37,5 +37,4 @@
         android:clickable="true"
         app:srcCompat="@drawable/ic_baseline_add_24" />
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

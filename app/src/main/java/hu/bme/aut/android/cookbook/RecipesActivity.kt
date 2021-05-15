@@ -33,7 +33,7 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        val navView: NavigationView = findViewById(R.id.nav_view)   //TODO: remove these lines, check if works
         binding.navView.setNavigationItemSelectedListener(this)
 
         var toggle : ActionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
