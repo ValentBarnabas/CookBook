@@ -1,7 +1,6 @@
 package hu.bme.aut.android.cookbook.ui.createrecipe
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -70,9 +69,9 @@ class CreateRecipeFragment : Fragment() {
 
     private fun validateForm() = binding.etTitle.validateNonEmpty() && binding.etIngredients.validateNonEmpty() && binding.etMethod.validateNonEmpty()
 
-    private fun uploadPost(imageUrl: String? = null) {
+    private fun uploadRecipe(imageUrl: String? = null) {
         val newRecipe = Recipe(FirebaseAuth.getInstance().currentUser.uid, FirebaseAuth.getInstance().currentUser.displayName, binding.etTitle.text.toString(),
-            binding.etIngredients.text.toString(), binding.etMethod.text.toString(), imageUrl)
+            binding.etIngredients.text.toString(), binding.etMethod.text.toString(), imageUrl, 0)
 
         val db = Firebase.firestore
 
@@ -126,7 +125,7 @@ class CreateRecipeFragment : Fragment() {
                 newImageRef.downloadUrl
             }
             .addOnSuccessListener { downloadUri ->
-                uploadPost(downloadUri.toString())
+                uploadRecipe(downloadUri.toString())
                 Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
                 val fragMan = activity?.supportFragmentManager
                 fragMan?.popBackStack()
