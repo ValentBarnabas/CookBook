@@ -18,6 +18,7 @@ import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
 //TODO: Next step is being able to open recipes by clicking on them, and deleting recipes
+//TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
 //TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login. Belogolva a felhasznalo neve latsszon a nav draweren, kilogolva az Anonim
 //TODO: implement opening recipes by clicking on them
 
