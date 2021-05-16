@@ -17,9 +17,12 @@ import hu.bme.aut.android.cookbook.ui.logout.LogoutFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
-//TODO: fix MyRecipesFragment.initRecipesListener, or whatever causes the crashes
+//TODO: Next step is being able to open recipes by clicking on them, and deleting recipes
 //TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login. Belogolva a felhasznalo neve latsszon a nav draweren, kilogolva az Anonim
 //TODO: implement opening recipes by clicking on them
+
+//TODO: fix MyRecipesFragment.initRecipesListener, or whatever causes the crashes
+
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -76,18 +79,12 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             R.id.nav_login -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LoginFragment()).commit()
-
-//                startActivity(Intent(this@RecipesActivity, LoginActivity::class.java))  //Nem kell, nekem nem ebbol kezdodik, hanem megnyitodik csak kivanatra
             }
             R.id.nav_myRecipes -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, MyRecipesFragment()).commit()
-
-                //get my recipes from persistent storage
             }
             R.id.nav_othersRecipes -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, OthersRecipesFragment()).commit()
-
-                //get others recipes from firebase
             }
         }
 
@@ -107,7 +104,7 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         binding.navView.setCheckedItem(fragment.id)
         transaction.commit()
     }
-    fun swapToFragment(fragment: Fragment) {
+    fun swapToFragment(fragment: Fragment) {        //Swap current fragment to given one
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragmentContainer.id, fragment)
         binding.navView.setCheckedItem(fragment.id)

@@ -25,7 +25,6 @@ class RecipeAdapter(private val context: Context) :
     private var lastPosition = -1
 
     class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {        //TODO: possible place of failure
-//        val tvAuthor: TextView = binding.tvAuthor
         val tvTitle: TextView = binding.tvTitle
         val tvRating: TextView = binding.tvRating
         val imgRecipe: ImageView = binding.imgRecipe
@@ -36,7 +35,6 @@ class RecipeAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val tmpPost = recipeList[position]
-//        holder.tvAuthor.text = tmpPost.author
         holder.tvTitle.text = tmpPost.title
         holder.tvRating.text = tmpPost.rating.toString()
 
