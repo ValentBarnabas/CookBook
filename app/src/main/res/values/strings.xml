@@ -32,4 +32,6 @@
     <string name="nav_header_title_no_auth">Anonymus</string>
     <string name="nav_header_subtitle_no_auth">-</string>
 
+    <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
+
 </resources>

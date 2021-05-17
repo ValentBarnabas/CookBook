@@ -1,6 +1,7 @@
 package hu.bme.aut.android.cookbook
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -16,9 +17,12 @@ import hu.bme.aut.android.cookbook.ui.login.LoginFragment
 import hu.bme.aut.android.cookbook.ui.logout.LogoutFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
+import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewPersistentRecipeFragment
+import java.util.*
 
-//TODO: Ma: kattintasra recept kinyilik, felugro ablakok, egy soros cim, torles, ertekeles -> szivecskek mondjuk
+//TODO: Ma: felugro ablakok, egy soros cim, torles, ertekeles -> szivecskek mondjuk
 
+//TODO: make fragment_viewpersistentrecipe look good
 //TODO: logout fragmentnel legyen felugro ablak, hogy tenyleg ki akar-e lepni
 //TODO: Next step is being able to open recipes by clicking on them, and deleting recipes
 //TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
@@ -93,6 +97,19 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         binding.navView.setCheckedItem(fragment.id)
         transaction.commit()
     }
+
+    fun addOnFragmentWithExtra(fragment: Fragment, extraParcelable: Parcelable){
+        val bundle = Bundle()
+        bundle.putParcelable("extra", extraParcelable)
+        fragment.arguments = bundle
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(binding.fragmentContainer.id, fragment)
+        transaction.addToBackStack(null)
+        binding.navView.setCheckedItem(fragment.id)
+        transaction.commit()
+    }
+
     fun swapToFragment(fragment: Fragment) {        //Swap current fragment to given one
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragmentContainer.id, fragment)

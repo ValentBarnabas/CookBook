@@ -28,7 +28,7 @@ class PersistentRecipeAdapter(private val context: Context) :
         var recipe: Recipe? = null
         init {
             itemView.setOnClickListener{
-                recipe?.let { recipe -> itemClickListener?.onItemClick(recipe) }                      //TODO: make this into working recipe opening thing
+                recipe?.let { recipe -> itemClickListener?.onItemClick(recipe) }
             }
         }
     }

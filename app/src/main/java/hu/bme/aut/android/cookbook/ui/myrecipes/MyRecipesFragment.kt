@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -36,7 +35,7 @@ class MyRecipesFragment : Fragment(), PersistentRecipeAdapter.OnItemClickListene
         val root = binding.root
 
         recipeAdapter = PersistentRecipeAdapter(requireContext())
-        recipeAdapter.itemClickListener = this                //TODO: beallitani, mit csinaljon egy item, ha rakattintanak
+        recipeAdapter.itemClickListener = this
 
 
         recipeViewModel = ViewModelProvider(requireActivity()).get(RecipeViewModel::class.java)
@@ -54,9 +53,8 @@ class MyRecipesFragment : Fragment(), PersistentRecipeAdapter.OnItemClickListene
         return root
     }
 
-    override fun onItemClick(recipe: Recipe) {
-        Toast.makeText(requireContext(), recipe.title.toString(), Toast.LENGTH_LONG).show()
-//        give current recipe to the fragment -> addOnFragmentWithInfo(recipe)
+    override fun onItemClick(recipe: Recipe) {      //give current recipe to the fragment -> addOnFragmentWithInfo(recipe)
+        (activity as RecipesActivity).addOnFragmentWithExtra(ViewPersistentRecipeFragment(), recipe)
     }
 
     override fun onDestroyView() {
