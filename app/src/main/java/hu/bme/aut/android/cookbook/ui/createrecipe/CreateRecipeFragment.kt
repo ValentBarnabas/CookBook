@@ -64,7 +64,7 @@ class CreateRecipeFragment : Fragment() {
         }
 
         if (binding.ivImage.visibility != View.VISIBLE) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.create_recipe_add_image), Toast.LENGTH_LONG).show()
+            if(context != null) Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_add_image), Toast.LENGTH_LONG).show()
         } else {
             try {
                 uploadPostWithImage()

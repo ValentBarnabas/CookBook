@@ -19,6 +19,7 @@
 
     <string name="authentication_registration_successfull">Registration successfull</string>
     <string name="authentication_login_successfull">Login successfull</string>
+    <string name="authentication_logout_successfull">Logout successfull</string>
 
     <string name="create_recipe_text">Add Recipe</string>
     <string name="create_recipe_set_image">Set Image</string>
@@ -28,7 +29,7 @@
     <string name="create_recipe_success">Recipe uploaded!</string>
     <string name="create_recipe_add_image">Add image before uploading</string>
 
-    <string name="nav_header_title_no_auth">Anonimus</string>
+    <string name="nav_header_title_no_auth">Anonymus</string>
     <string name="nav_header_subtitle_no_auth">-</string>
 
 </resources>

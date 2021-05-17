@@ -17,13 +17,13 @@ import hu.bme.aut.android.cookbook.ui.logout.LogoutFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
+//TODO: Ma: kattintasra recept kinyilik, felugro ablakok, egy soros cim, torles, ertekeles -> szivecskek mondjuk
+
+//TODO: logout fragmentnel legyen felugro ablak, hogy tenyleg ki akar-e lepni
 //TODO: Next step is being able to open recipes by clicking on them, and deleting recipes
 //TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
-//TODO: itt ha be van loginolva, akkor logout legyen, ha nincs akkor login. Belogolva a felhasznalo neve latsszon a nav draweren, kilogolva az Anonim
-//TODO: implement opening recipes by clicking on them
 
-//TODO: fix MyRecipesFragment.initRecipesListener, or whatever causes the crashes
-
+//TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +37,7 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val navView: NavigationView = findViewById(R.id.nav_view)   //TODO: remove these lines, check if works
+        val navView: NavigationView = findViewById(R.id.nav_view)
         binding.navView.setNavigationItemSelectedListener(this)
 
         var toggle : ActionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -49,17 +49,7 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             binding.navView.setCheckedItem(R.id.nav_myRecipes)
         }
 
-        if(FirebaseAuth.getInstance().currentUser == null) {
-            val tvFirst : TextView? = findViewById(R.id.navHeaderMain_tvFirstLine)
-            val tvSecond: TextView? = findViewById(R.id.navHeaderMain_tvSecondLine)
-            tvFirst?.text = R.string.nav_header_title_no_auth.toString()
-            tvSecond?.text = R.string.nav_header_subtitle_no_auth.toString()
-        } else {
-            val tvFirst : TextView? = findViewById(R.id.navHeaderMain_tvFirstLine)
-            val tvSecond: TextView? = findViewById(R.id.navHeaderMain_tvSecondLine)
-            tvFirst?.text = FirebaseAuth.getInstance().currentUser.uid.toString()
-            tvSecond?.text = FirebaseAuth.getInstance().currentUser.email.toString()
-        }
+        updateDrawerInformation()
 
     }
 
@@ -75,8 +65,6 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         when(item.itemId) {
             R.id.nav_logout -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LogoutFragment()).commit()
-//                FirebaseAuth.getInstance().signOut()
-//                Auth.GoogleSignInApi.signOut(apiClient);
             }
             R.id.nav_login -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LoginFragment()).commit()
@@ -110,5 +98,27 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         transaction.replace(binding.fragmentContainer.id, fragment)
         binding.navView.setCheckedItem(fragment.id)
         transaction.commit()
+    }
+
+    fun updateDrawerInformation() {                 //Updates textView1 and textView2 in nav_header_main. Call in LoginFragment success and LogoutFragment success
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val headerView = navView.getHeaderView(0)
+        val tvFirst: TextView = headerView.findViewById(R.id.navHeaderMain_tvFirstLine)
+        val tvSecond: TextView = headerView.findViewById(R.id.navHeaderMain_tvSecondLine)
+        val navMenu = navView.menu
+        val navLogin = navMenu.findItem(R.id.nav_login)
+        val navLogout = navMenu.findItem(R.id.nav_logout)
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            tvFirst.text = getString(R.string.nav_header_title_no_auth)
+            tvSecond.text = getString(R.string.nav_header_subtitle_no_auth)
+            navLogin.isVisible = true
+            navLogout.isVisible = false
+
+        } else {
+            tvFirst.text = FirebaseAuth.getInstance().currentUser.displayName.toString()
+            tvSecond.text = FirebaseAuth.getInstance().currentUser.email.toString()
+            navLogin.isVisible = false
+            navLogout.isVisible = true
+        }
     }
 }

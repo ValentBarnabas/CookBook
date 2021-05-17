@@ -33,12 +33,15 @@ class MyRecipesFragment : Fragment() {
         val root = binding.root
 
         recipeAdapter = PersistentRecipeAdapter(requireContext())
-        //        recipeAdapter.itemClickListener                   //TODO: beallitani, mit csinaljon egy item, ha rakattintanak
+//        recipeAdapter.itemClickListener                   //TODO: beallitani, mit csinaljon egy item, ha rakattintanak
+//        recipeAdapter.setOnItemClickListener(PersistentRecipeAdapter.OnItemClickListener()){
+//
+//        }
 
-        recipeViewModel = ViewModelProvider(requireActivity()).get(RecipeViewModel::class.java)      //TODO: try with this instead of requireActivity()
-        recipeViewModel.allRecipes.observe(requireActivity(), { recipes ->
-            recipeAdapter.submitList(recipes)       //TODO: Create submitlist if doesnt work
-        })
+        recipeViewModel = ViewModelProvider(requireActivity()).get(RecipeViewModel::class.java)
+        recipeViewModel.allRecipes.observe(requireActivity()) { recipes ->
+            recipeAdapter.submitList(recipes)
+        }
 
         binding.rvMyRecipes.layoutManager = StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL)
         binding.rvMyRecipes.adapter = recipeAdapter
