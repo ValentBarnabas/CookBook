@@ -35,5 +35,9 @@
     <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
     <string name="fragment_viewfirebaserecipe_rateBtn">Rate</string>
 
+    <string name="fragment_logoutdialog_tvText">Are you sure you want to log out?</string>
+    <string name="fragment_logoutdialog_negativeOption">Cancel</string>
+    <string name="fragment_logoutdialog_positiveOption">Logout</string>
+
 
 </resources>

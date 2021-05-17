@@ -1,11 +1,13 @@
 package hu.bme.aut.android.cookbook
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -14,21 +16,19 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
 import hu.bme.aut.android.cookbook.ui.login.LoginFragment
-import hu.bme.aut.android.cookbook.ui.logout.LogoutFragment
+import hu.bme.aut.android.cookbook.ui.logout.LogoutDialogFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
-import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewPersistentRecipeFragment
-import java.util.*
 
-//TODO: Ma: torles, felugro ablakok, egy soros cim, ertekeles -> szivecskek mondjuk
+//TODO: delete (with popup window. Maybe only from device, or both, will see), rate recipe (with popup alert), share (with popup window)
 
-//TODO: make fragment_viewpersistentrecipe look good
-//TODO: logout fragmentnel legyen felugro ablak, hogy tenyleg ki akar-e lepni
+//TODO: update CreateRecipeFragment with check if upload is with internet access and login or else
+
 //TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 
-class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, LogoutDialogFragment.ResultDialogListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityRecipesBinding
@@ -67,7 +67,8 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.nav_logout -> {
-                supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LogoutFragment()).commit()
+//                supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LogoutFragment()).commit()
+                openLogoutDialog()
             }
             R.id.nav_login -> {
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LoginFragment()).commit()
@@ -82,6 +83,10 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun openLogoutDialog() {
+        LogoutDialogFragment().show(supportFragmentManager, "logout dialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {     //TODO: delete if i dont use it
@@ -135,6 +140,16 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             tvSecond.text = FirebaseAuth.getInstance().currentUser.email.toString()
             navLogin.isVisible = false
             navLogout.isVisible = true
+        }
+    }
+
+    override fun returnValue(bool: Boolean) {
+        Toast.makeText(this, bool.toString(), Toast.LENGTH_SHORT).show()
+        if(bool) {
+            FirebaseAuth.getInstance().signOut()
+            updateDrawerInformation()
+            Toast.makeText(this, R.string.authentication_logout_successfull, Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, RecipesActivity::class.java))
         }
     }
 }
