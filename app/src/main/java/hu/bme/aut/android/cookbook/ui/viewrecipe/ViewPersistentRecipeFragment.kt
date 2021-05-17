@@ -34,7 +34,7 @@ class ViewPersistentRecipeFragment : Fragment() {
         return root
     }
 
-    fun setUpView() {
+    private fun setUpView() {
         var requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
         Glide.with(requireContext()).load(currRecipe.imageUrl).apply(requestOptions).into(binding.fragmentViewPersistentRecipeIvImage)
 

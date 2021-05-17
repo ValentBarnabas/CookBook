@@ -20,11 +20,10 @@ import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewPersistentRecipeFragment
 import java.util.*
 
-//TODO: Ma: felugro ablakok, egy soros cim, torles, ertekeles -> szivecskek mondjuk
+//TODO: Ma: torles, felugro ablakok, egy soros cim, ertekeles -> szivecskek mondjuk
 
 //TODO: make fragment_viewpersistentrecipe look good
 //TODO: logout fragmentnel legyen felugro ablak, hogy tenyleg ki akar-e lepni
-//TODO: Next step is being able to open recipes by clicking on them, and deleting recipes
 //TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet

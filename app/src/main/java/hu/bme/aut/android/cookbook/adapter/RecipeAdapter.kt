@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +23,21 @@ class RecipeAdapter(private val context: Context) :
     private val recipeList: MutableList<Recipe> = mutableListOf()
     private var lastPosition = -1
 
-    class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {        //TODO: possible place of failure
+    var itemClickListener: OnItemClickListener? = null
+
+    inner class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvTitle: TextView = binding.tvTitle
         val tvRating: TextView = binding.tvRating
         val imgRecipe: ImageView = binding.imgRecipe
+
+        var recipe: Recipe? = null
+
+        init {
+            itemView.setOnClickListener{
+                var position= adapterPosition
+                if(position != RecyclerView.NO_POSITION) itemClickListener?.onItemClick(recipeList.get(position))
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -47,9 +57,6 @@ class RecipeAdapter(private val context: Context) :
         }
 
         setAnimation(holder.itemView, position)
-        holder.imgRecipe.setOnClickListener {
-            Toast.makeText(context, recipeList.get(position).title.toString(), Toast.LENGTH_LONG).show()    //TODO: make this into working recipe opening thing
-        }
     }
 
     fun addRecipe(recipe: Recipe?) {
@@ -82,5 +89,13 @@ class RecipeAdapter(private val context: Context) :
                 return oldItem == newItem
             }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(recipe: Recipe)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
     }
 }

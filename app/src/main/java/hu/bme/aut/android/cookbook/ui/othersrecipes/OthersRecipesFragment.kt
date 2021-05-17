@@ -1,6 +1,5 @@
 package hu.bme.aut.android.cookbook.ui.othersrecipes
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,9 @@ import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentOthersrecipesBinding
 import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
+import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewFirebaseRecipeFragment
 
-class OthersRecipesFragment : Fragment() {
+class OthersRecipesFragment : Fragment(), RecipeAdapter.OnItemClickListener {
 
     private var _binding: FragmentOthersrecipesBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +35,8 @@ class OthersRecipesFragment : Fragment() {
         val root = binding.root
 
         recipeAdapter = RecipeAdapter(requireContext())
+        recipeAdapter.itemClickListener = this
+
         binding.rvOthersRecipes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rvOthersRecipes.adapter = recipeAdapter
 
@@ -69,5 +71,9 @@ class OthersRecipesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(recipe: Recipe) {
+        (activity as RecipesActivity).addOnFragmentWithExtra(ViewFirebaseRecipeFragment(), recipe)
     }
 }
