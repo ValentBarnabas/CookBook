@@ -21,9 +21,9 @@ class PersistentRecipeAdapter(private val context: Context) :
     ListAdapter<Recipe, PersistentRecipeAdapter.RecipeViewHolder>(itemCallback) {
     private var lastPosition = -1
 
-    lateinit var itemClickListener: OnItemClickListener
+    var itemClickListener: OnItemClickListener? = null
 
-    class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
         var binding = binding
         var recipe: Recipe? = null
         init {

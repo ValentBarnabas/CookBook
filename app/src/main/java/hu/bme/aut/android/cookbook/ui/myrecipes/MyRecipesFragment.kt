@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -11,11 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.adapter.PersistentRecipeAdapter
+import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentMyrecipesBinding
 import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
+import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewPersistentRecipeFragment
 import hu.bme.aut.android.cookbook.viewmodel.RecipeViewModel
 
-class MyRecipesFragment : Fragment() {
+class MyRecipesFragment : Fragment(), PersistentRecipeAdapter.OnItemClickListener {
 
     private var _binding: FragmentMyrecipesBinding? = null
     private val binding get() = _binding!!
@@ -33,10 +36,8 @@ class MyRecipesFragment : Fragment() {
         val root = binding.root
 
         recipeAdapter = PersistentRecipeAdapter(requireContext())
-//        recipeAdapter.itemClickListener                   //TODO: beallitani, mit csinaljon egy item, ha rakattintanak
-//        recipeAdapter.setOnItemClickListener(PersistentRecipeAdapter.OnItemClickListener()){
-//
-//        }
+        recipeAdapter.itemClickListener = this                //TODO: beallitani, mit csinaljon egy item, ha rakattintanak
+
 
         recipeViewModel = ViewModelProvider(requireActivity()).get(RecipeViewModel::class.java)
         recipeViewModel.allRecipes.observe(requireActivity()) { recipes ->
@@ -51,6 +52,11 @@ class MyRecipesFragment : Fragment() {
         }
 
         return root
+    }
+
+    override fun onItemClick(recipe: Recipe) {
+        Toast.makeText(requireContext(), recipe.title.toString(), Toast.LENGTH_LONG).show()
+//        give current recipe to the fragment -> addOnFragmentWithInfo(recipe)
     }
 
     override fun onDestroyView() {
