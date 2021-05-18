@@ -19,13 +19,11 @@ import hu.bme.aut.android.cookbook.ui.dialogpopups.LogoutDialogFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
-//TODO: rate recipe (with popup alert), share (with popup window)
-//TODO: add offline and anonymous recipe adding, FEEDBACK on successful delete
-
-//TODO: implement being able to upload recipes if they are not uploaded to firebase (uID == 0)
-//TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
+//TODO: rate recipe with POPUP ALERT, share/upload (with popup window, firebaseID == 0)
+//TODO: add offline and anonymous recipe adding
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
+//TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, LogoutDialogFragment.ResultDialogListener {
 
@@ -50,7 +48,6 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, MyRecipesFragment()).commit()
             binding.navView.setCheckedItem(R.id.nav_myRecipes)
         }
-
         updateDrawerInformation()
 
     }
@@ -108,6 +105,17 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     fun swapToFragment(fragment: Fragment) {        //Swap current fragment to given one
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(binding.fragmentContainer.id, fragment)
+        binding.navView.setCheckedItem(fragment.id)
+        transaction.commit()
+    }
+
+    fun swapToFragmentWithExtra(fragment: Fragment, extraParcelable: Parcelable) {
+        val bundle = Bundle()
+        bundle.putParcelable("extra", extraParcelable)
+        fragment.arguments = bundle
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragmentContainer.id, fragment)
         binding.navView.setCheckedItem(fragment.id)

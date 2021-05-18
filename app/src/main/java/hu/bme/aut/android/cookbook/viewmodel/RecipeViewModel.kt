@@ -27,6 +27,10 @@ class RecipeViewModel : ViewModel() {
         repository.delete(recipe)
     }
 
+    fun update(recipe: Recipe) = viewModelScope.launch {
+        repository.update(recipe)
+    }
+
 //    fun deleteWithID(id: Int) = viewModelScope.launch {
 //        repository.deleteWithID(id)
 //    }

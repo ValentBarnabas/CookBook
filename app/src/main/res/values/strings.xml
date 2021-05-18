@@ -34,7 +34,7 @@
     <string name="nav_header_subtitle_no_auth">-</string>
 
     <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
-    <string name="fragment_viewfirebaserecipe_rateBtn">Rate</string>
+    <string name="fragment_viewfirebaserecipe_rateBtn">Like</string>
 
     <string name="fragment_logoutdialog_tvText">Are you sure you want to log out?</string>
     <string name="fragment_logoutdialog_negativeOption">Cancel</string>

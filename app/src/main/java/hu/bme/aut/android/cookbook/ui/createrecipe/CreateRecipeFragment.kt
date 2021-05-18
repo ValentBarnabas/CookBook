@@ -118,7 +118,7 @@ class CreateRecipeFragment : Fragment() {
                     .addOnFailureListener { e -> Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show() }
                 }
         } else {            //user doesnt have internet access, cant get downloadURI
-            //TODO: save on persistent storage and send toast about not being uploaded online -> offline mentesnel a file-t elmentjuk, es csak utvonalat tarolunk hozza
+            //TODO: save on persistent storage and send toast about not being uploaded online -> offline mentesnel a file-t elmentjuk, es csak utvonalat tarolunk hozza, firebaseID ="0"
         }
     }
 

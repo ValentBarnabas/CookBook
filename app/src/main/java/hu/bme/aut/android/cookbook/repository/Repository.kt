@@ -24,6 +24,9 @@ class Repository(private val recipeDAO: RecipeDAO) {
     suspend fun delete(recipe: Recipe) = withContext(Dispatchers.IO) {
         recipeDAO.deleteRecipe(recipe.toRoomModel())
     }
+    suspend fun update(recipe: Recipe) = withContext(Dispatchers.IO) {
+        recipeDAO.updateRecipe(recipe.toRoomModel())
+    }
 
     private fun RoomRecipe.toDomainModel(): Recipe {
         return Recipe(

@@ -18,7 +18,7 @@ interface RecipeDAO {
 //    fun getRecipeByAuthor(author: String):LiveData<List<RoomRecipe>>
 
     @Update
-    fun updateRecipe(recipe : RoomRecipe): Int
+    fun updateRecipe(recipe : RoomRecipe)
 
     @Delete
     fun deleteRecipe(recipe : RoomRecipe)
