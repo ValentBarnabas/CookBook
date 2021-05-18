@@ -51,6 +51,8 @@
 
     <string name="fragment_deleteOnlineRecipeUnauthorizedUser">This recipe belongs to someone else, you cannot delete it from the online recipes</string>
     <string name="fragment_deleteOnlineRecipeNoInternetAccess">You need internet access to delete items</string>
+    <string name="toast_deleteOnlineRecipeSuccess">Recipe deleted from online storage</string>
+    <string name="toast_deleteOnlineRecipeFailed">Error deleting recipe, check for problems</string>
 
 
 </resources>

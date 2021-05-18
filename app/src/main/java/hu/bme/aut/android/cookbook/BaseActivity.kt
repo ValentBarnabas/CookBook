@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-abstract class BaseActivity : AppCompatActivity() {     //TODO: look into weather i need processdialogs
+abstract class BaseActivity : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
 
     private val firebaseUser: FirebaseUser?

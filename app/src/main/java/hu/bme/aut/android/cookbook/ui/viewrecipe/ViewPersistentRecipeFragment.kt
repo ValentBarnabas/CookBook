@@ -1,17 +1,14 @@
 package hu.bme.aut.android.cookbook.ui.viewrecipe
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.room.Delete
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.cookbook.Extensions.isOnline
@@ -20,6 +17,7 @@ import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentViewpersistentrecipeBinding
 import hu.bme.aut.android.cookbook.ui.dialogpopups.DeleteRecipeDialogFragment
+import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.viewmodel.RecipeViewModel
 
 class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.ResultDialogListener {
@@ -117,6 +115,14 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
         if(isOnline(requireContext())) {
             if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
                 Firebase.firestore.collection("recipes").document(currRecipe.uID!!).delete()
+                    .addOnCompleteListener(OnCompleteListener {
+                        if(it.isSuccessful) {
+                            Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeSuccess, Toast.LENGTH_LONG).show()
+                            (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
+                        } else {
+                            Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeFailed, Toast.LENGTH_LONG).show()
+                        }
+                    })
             } else {
                 Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeUnauthorizedUser, Toast.LENGTH_LONG).show()
             }
