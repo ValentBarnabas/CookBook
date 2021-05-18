@@ -1,18 +1,28 @@
 package hu.bme.aut.android.cookbook.ui.viewrecipe
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.room.Delete
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import hu.bme.aut.android.cookbook.Extensions.isOnline
 import hu.bme.aut.android.cookbook.R
+import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentViewpersistentrecipeBinding
+import hu.bme.aut.android.cookbook.ui.dialogpopups.DeleteRecipeDialogFragment
+import hu.bme.aut.android.cookbook.viewmodel.RecipeViewModel
 
-class ViewPersistentRecipeFragment : Fragment() {
+class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.ResultDialogListener {
 
     private var _binding: FragmentViewpersistentrecipeBinding? = null
     private val binding get() = _binding!!
@@ -31,12 +41,15 @@ class ViewPersistentRecipeFragment : Fragment() {
 
         setUpView()
 
+        setHasOptionsMenu(true)     //shows options menu
+
         return root
     }
 
     private fun setUpView() {
         var requestOptions = RequestOptions().placeholder(R.drawable.ic_launcher_background)
-        Glide.with(requireContext()).load(currRecipe.imageUrl).apply(requestOptions).into(binding.fragmentViewPersistentRecipeIvImage)
+        Glide.with(requireContext()).load(currRecipe.imageUrl).apply(requestOptions)
+            .into(binding.fragmentViewPersistentRecipeIvImage)
 
         binding.fragmentViewPersistentRecipeTvTitle.text = currRecipe.title
         binding.fragmentViewPersistentRecipeTvAuthor.text = currRecipe.author
@@ -45,6 +58,71 @@ class ViewPersistentRecipeFragment : Fragment() {
         binding.fragmentViewPersistentRecipeTvMethod.text = currRecipe.method
 
         binding.fragmentViewPersistentRecipeBtnUpload.isVisible = (currRecipe.uID == "0")
+
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.options_menu_viewpersistentrecipefragment, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.options_menu_persistentrecipefragment_deleteForMyselfOption -> {
+                var dialog = DeleteRecipeDialogFragment()
+                var bundle = Bundle()
+                bundle.putString("text", getString(R.string.popup_dialog_deleteForMyself))
+                dialog.setTargetFragment(this, 0)
+                dialog.arguments = bundle
+                fragmentManager?.let { dialog.show(it, "delete for myself") }
+            }
+            R.id.options_menu_persistentrecipefragment_deleteForOthersOption -> {
+                var dialog = DeleteRecipeDialogFragment()
+                var bundle = Bundle()
+                bundle.putString("text", getString(R.string.popup_dialog_deleteForOthers))
+                dialog.setTargetFragment(this, 0)
+                dialog.arguments = bundle
+                fragmentManager?.let { dialog.show(it, "delete for others") }
+            }
+            R.id.options_menu_persistentrecipefragment_deleteForEveryoneOption -> {
+                var dialog = DeleteRecipeDialogFragment()
+                var bundle = Bundle()
+                bundle.putString("text", getString(R.string.popup_dialog_deleteForEveryone))
+                dialog.setTargetFragment(this, 0)
+                dialog.arguments = bundle
+                fragmentManager?.let { dialog.show(it, "delete for everyone") }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun returnValue(bool: Boolean, tag: String) {
+        if (bool) {
+            if (tag == "delete for myself") {
+                deleteOffline()
+            } else if (tag == "delete for others") {
+                deleteOnline()
+            }
+        } else if (tag == "delete for everyone") {
+            deleteOnline()
+            deleteOffline()
+        }
+    }
+
+    private fun deleteOffline() {
+        RecipeViewModel().delete(currRecipe)
+    }
+    private fun deleteOnline() {
+        if(isOnline(requireContext())) {
+            if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
+                Firebase.firestore.collection("recipes").document(currRecipe.uID!!).delete()
+            } else {
+                Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeUnauthorizedUser, Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeNoInternetAccess, Toast.LENGTH_LONG).show()
+        }
+
+    }
 }

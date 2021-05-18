@@ -61,8 +61,8 @@ class OthersRecipesFragment : Fragment(), RecipeAdapter.OnItemClickListener {
                 for (dc in snapshots!!.documentChanges) {
                     when (dc.type) {
                         DocumentChange.Type.ADDED -> recipeAdapter?.addRecipe(dc.document.toObject<Recipe>())
-                        DocumentChange.Type.MODIFIED -> Toast.makeText(requireContext(), dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-                        DocumentChange.Type.REMOVED -> Toast.makeText(requireContext(), dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                        DocumentChange.Type.MODIFIED -> Toast.makeText(requireContext(), dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                        DocumentChange.Type.REMOVED -> Toast.makeText(requireContext(), dc.document.data.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

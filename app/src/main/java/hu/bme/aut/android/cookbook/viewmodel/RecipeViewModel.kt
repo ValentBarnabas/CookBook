@@ -22,4 +22,12 @@ class RecipeViewModel : ViewModel() {
     fun insert(recipe: Recipe) = viewModelScope.launch {
         repository.insert(recipe)
     }
+
+    fun delete(recipe: Recipe) = viewModelScope.launch {
+        repository.delete(recipe)
+    }
+
+//    fun deleteWithID(id: Int) = viewModelScope.launch {
+//        repository.deleteWithID(id)
+//    }
 }

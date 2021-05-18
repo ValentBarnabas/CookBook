@@ -1,4 +1,4 @@
-package hu.bme.aut.android.cookbook.ui.logout
+package hu.bme.aut.android.cookbook.ui.dialogpopups
 
 import android.app.Dialog
 import android.content.Context
@@ -11,19 +11,17 @@ import java.lang.ClassCastException
 
 class LogoutDialogFragment : AppCompatDialogFragment() {
 
-    private lateinit var logoutViewModel: LogoutViewModel
-
-    private var resultDialogListener:ResultDialogListener? = null
+    private var resultDialogListener: ResultDialogListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         var builder = AlertDialog.Builder(requireContext())
         var layoutInflater = requireActivity().layoutInflater
-        var view = layoutInflater.inflate(R.layout.fragment_logoutdialog, null)
+        var view = layoutInflater.inflate(R.layout.fragment_dialogpopup, null)
 
         builder.setView(view).setTitle(R.string.fragment_logoutdialog_tvText)
             .setNegativeButton(R.string.fragment_logoutdialog_negativeOption, DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int -> })
             .setPositiveButton(R.string.fragment_logoutdialog_positiveOption, DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
-                    resultDialogListener?.returnValue(true)
+                resultDialogListener?.returnValue(true)
             })
         return builder.create()
     }

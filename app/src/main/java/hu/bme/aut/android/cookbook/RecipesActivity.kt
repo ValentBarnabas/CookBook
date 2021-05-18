@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -16,15 +15,14 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
 import hu.bme.aut.android.cookbook.ui.login.LoginFragment
-import hu.bme.aut.android.cookbook.ui.logout.LogoutDialogFragment
+import hu.bme.aut.android.cookbook.ui.dialogpopups.LogoutDialogFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
-//TODO: delete (with popup window. Maybe only from device, or both, will see), rate recipe (with popup alert), share (with popup window)
+//TODO: rate recipe (with popup alert), share (with popup window)
+//TODO: add offline and anonymous recipe adding, FEEDBACK on successful delete
 
-//TODO: update CreateRecipeFragment with check if upload is with internet access and login or else
-
-//TODO: implement being able to upload images if they are not uploaded to firebase (uID == 0)
+//TODO: implement being able to upload recipes if they are not uploaded to firebase (uID == 0)
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 
@@ -67,7 +65,6 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.nav_logout -> {
-//                supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LogoutFragment()).commit()
                 openLogoutDialog()
             }
             R.id.nav_login -> {
@@ -87,11 +84,6 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun openLogoutDialog() {
         LogoutDialogFragment().show(supportFragmentManager, "logout dialog")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {     //TODO: delete if i dont use it
-        menuInflater.inflate(R.menu.recipess, menu)
-        return true
     }
 
     fun addOnFragment(fragment : Fragment) {        //Adds fragment to backstack, so we can leave it with back button
@@ -144,7 +136,6 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     override fun returnValue(bool: Boolean) {
-        Toast.makeText(this, bool.toString(), Toast.LENGTH_SHORT).show()
         if(bool) {
             FirebaseAuth.getInstance().signOut()
             updateDrawerInformation()

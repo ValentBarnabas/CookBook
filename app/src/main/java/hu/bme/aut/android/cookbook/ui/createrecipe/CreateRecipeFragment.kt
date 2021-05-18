@@ -1,13 +1,9 @@
 package hu.bme.aut.android.cookbook.ui.createrecipe
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -15,15 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import hu.bme.aut.android.cookbook.Extensions.isOnline
 import hu.bme.aut.android.cookbook.Extensions.validateNonEmpty
 import hu.bme.aut.android.cookbook.R
-import hu.bme.aut.android.cookbook.RecipeApplication.Companion.recipeDatabase
 import hu.bme.aut.android.cookbook.RecipesActivity
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentCreateRecipeBinding
@@ -76,27 +70,28 @@ class CreateRecipeFragment : Fragment() {
 
     private fun validateForm() = binding.etTitle.validateNonEmpty() && binding.etIngredients.validateNonEmpty() && binding.etMethod.validateNonEmpty()
 
-    private fun uploadRecipe(imageUrl: String? = null) {
+    private fun uploadRecipe(imageUrl: String? = null) : String{
         val newRecipe = Recipe(FirebaseAuth.getInstance().currentUser.uid, FirebaseAuth.getInstance().currentUser.displayName, binding.etTitle.text.toString(),
             binding.etIngredients.text.toString(), binding.etMethod.text.toString(), imageUrl, 0)
 
         val db = Firebase.firestore
 
-        db.collection("recipes")
-            .add(newRecipe)
+        val docRef = db.collection("recipes").document()
+        docRef.set(newRecipe)
             .addOnSuccessListener {
                 if(context != null) Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
             }
             .addOnFailureListener { e -> Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show() }
+        return docRef.id
     }
 
-    private fun saveRecipe(imageUrl: String? = null) {  //TODO: saves recipe on persistent storage
+    private fun saveRecipe(imageUrl: String? = null, uID : String? = null) {
         val newRecipe:Recipe
         if(isOnline(requireContext()) && FirebaseAuth.getInstance().currentUser != null){                                     //User is online and logged in -> can get uID and author, will use those values
-            newRecipe = Recipe(FirebaseAuth.getInstance().currentUser.uid, FirebaseAuth.getInstance().currentUser.displayName, binding.etTitle.text.toString(),
+            newRecipe = Recipe(uID, FirebaseAuth.getInstance().currentUser.displayName, binding.etTitle.text.toString(),
                 binding.etIngredients.text.toString(), binding.etMethod.text.toString(), imageUrl, 0)
-        } else {                                                                                                              //User is offline or nor logged in -> cant get uID and author, so it will be 0 and Anonymus
-            newRecipe = Recipe("0", "Anonymus", binding.etTitle.text.toString(),
+        } else {                                                                                                              //User is offline or nor logged in -> cant get uID and author, so it will be 0 and Anonymous
+            newRecipe = Recipe("0", "Anonymous", binding.etTitle.text.toString(),
                 binding.etIngredients.text.toString(), binding.etMethod.text.toString(), imageUrl, 0)
         }
 
@@ -130,56 +125,33 @@ class CreateRecipeFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val imageInBytes = baos.toByteArray()
 
-        val storageReference = FirebaseStorage.getInstance().reference
-        val newImageName = URLEncoder.encode(UUID.randomUUID().toString(), "UTF-8") + ".jpg"
-        val newImageRef = storageReference.child("images/$newImageName")
+        if(isOnline(requireContext())) {
+            val storageReference = FirebaseStorage.getInstance().reference
+            val newImageName = URLEncoder.encode(UUID.randomUUID().toString(), "UTF-8") + ".jpg"
+            val newImageRef = storageReference.child("images/$newImageName")
 
-        newImageRef.putBytes(imageInBytes)
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
-            }
-            .continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let { throw it }
+            newImageRef.putBytes(imageInBytes)
+                .addOnFailureListener { exception ->
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
                 }
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let { throw it }
+                    }
 
-                newImageRef.downloadUrl
-            }
-            .addOnSuccessListener { downloadUri ->
-                uploadRecipe(downloadUri.toString())
-                saveRecipe(downloadUri.toString())
-                Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
-                val fragMan = activity?.supportFragmentManager
-                fragMan?.popBackStack()
-                (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
-            }
-    }
-
-    fun isOnline(context: Context?): Boolean {
-        if (context == null) return false
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                when {
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
+                    newImageRef.downloadUrl
                 }
-            }
+                .addOnSuccessListener { downloadUri ->
+                    var uID : String = uploadRecipe(downloadUri.toString())
+                    saveRecipe(downloadUri.toString(), uID)
+                    Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
+                    val fragMan = activity?.supportFragmentManager
+                    fragMan?.popBackStack()
+                    (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
+                }
         } else {
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-                return true
-            }
+            //TODO: save on persistent storage and send toast about not being uploaded online -> question: ha downloadUri-kat mentunk el, akkor azt hogyan szerzem meg offline?
         }
-        return false
     }
 
     override fun onDestroyView() {

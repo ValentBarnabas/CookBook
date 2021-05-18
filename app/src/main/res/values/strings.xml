@@ -29,7 +29,7 @@
     <string name="create_recipe_success">Recipe uploaded!</string>
     <string name="create_recipe_add_image">Add image before uploading</string>
 
-    <string name="nav_header_title_no_auth">Anonymus</string>
+    <string name="nav_header_title_no_auth">Anonymous</string>
     <string name="nav_header_subtitle_no_auth">-</string>
 
     <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
@@ -38,6 +38,19 @@
     <string name="fragment_logoutdialog_tvText">Are you sure you want to log out?</string>
     <string name="fragment_logoutdialog_negativeOption">Cancel</string>
     <string name="fragment_logoutdialog_positiveOption">Logout</string>
+
+    <string name="options_menu_persistentrecipefragment_deleteForMyself">Delete recipe for myself</string>
+    <string name="options_menu_persistentrecipefragment_deleteForOthers">Delete recipe for others</string>
+    <string name="options_menu_persistentrecipefragment_deleteForEveryone">Delete recipe for everyone</string>
+    <string name="popup_dialog_deleteForMyself">Are you sure you want to delete this recipe? (For you only)</string>
+    <string name="popup_dialog_deleteForOthers">Are you sure you want to delete this recipe? (For others only)</string>
+    <string name="popup_dialog_deleteForEveryone">Are you sure you want to delete this recipe? (For everyone)</string>
+
+    <string name="dialog_popup_negativeOption">No</string>
+    <string name="dialog_popup_positiveOption">Yes</string>
+
+    <string name="fragment_deleteOnlineRecipeUnauthorizedUser">This recipe belongs to someone else, you cannot delete it from the online recipes</string>
+    <string name="fragment_deleteOnlineRecipeNoInternetAccess">You need internet access to delete items</string>
 
 
 </resources>

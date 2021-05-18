@@ -23,4 +23,6 @@ interface RecipeDAO {
     @Delete
     fun deleteRecipe(recipe : RoomRecipe)
 
+//    @Query("DELETE FROM recipes_table WHERE id = :id")
+//    fun deleteRecipeWithID(id: Int)
 }
