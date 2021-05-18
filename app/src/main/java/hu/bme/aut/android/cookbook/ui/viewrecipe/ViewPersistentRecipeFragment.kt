@@ -55,7 +55,7 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
         binding.fragmentViewPersistentRecipeTvIngredients.text = currRecipe.ingredients
         binding.fragmentViewPersistentRecipeTvMethod.text = currRecipe.method
 
-        binding.fragmentViewPersistentRecipeBtnUpload.isVisible = (currRecipe.uID == "0")
+        binding.fragmentViewPersistentRecipeBtnUpload.isVisible = (currRecipe.firebaseID == "0")
 
     }
 
@@ -91,7 +91,6 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
                 fragmentManager?.let { dialog.show(it, "delete for everyone") }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -101,24 +100,25 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
                 deleteOffline()
             } else if (tag == "delete for others") {
                 deleteOnline()
+            } else if (tag == "delete for everyone") {
+                deleteOnline()
+                deleteOffline()
             }
-        } else if (tag == "delete for everyone") {
-            deleteOnline()
-            deleteOffline()
+            (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
         }
     }
 
     private fun deleteOffline() {
         RecipeViewModel().delete(currRecipe)
+        Toast.makeText(requireContext(), R.string.toast_deleteOfflineRecipeSuccess, Toast.LENGTH_LONG).show()
     }
     private fun deleteOnline() {
         if(isOnline(requireContext())) {
             if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
-                Firebase.firestore.collection("recipes").document(currRecipe.uID!!).delete()
+                Firebase.firestore.collection("recipes").document(currRecipe.firebaseID!!).delete()
                     .addOnCompleteListener(OnCompleteListener {
                         if(it.isSuccessful) {
                             Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeSuccess, Toast.LENGTH_LONG).show()
-                            (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
                         } else {
                             Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeFailed, Toast.LENGTH_LONG).show()
                         }

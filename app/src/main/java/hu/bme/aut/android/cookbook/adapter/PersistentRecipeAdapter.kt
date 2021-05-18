@@ -64,7 +64,7 @@ class PersistentRecipeAdapter(private val context: Context) :
     companion object {
         object itemCallback : DiffUtil.ItemCallback<Recipe>() {
             override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-                return oldItem.uID == newItem.uID
+                return oldItem.roomID == newItem.roomID
             }
 
             @SuppressLint("DiffUtilEquals")

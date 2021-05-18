@@ -23,6 +23,7 @@ import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 //TODO: add offline and anonymous recipe adding, FEEDBACK on successful delete
 
 //TODO: implement being able to upload recipes if they are not uploaded to firebase (uID == 0)
+//TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 

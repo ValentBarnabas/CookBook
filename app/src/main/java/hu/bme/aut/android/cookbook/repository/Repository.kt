@@ -24,13 +24,11 @@ class Repository(private val recipeDAO: RecipeDAO) {
     suspend fun delete(recipe: Recipe) = withContext(Dispatchers.IO) {
         recipeDAO.deleteRecipe(recipe.toRoomModel())
     }
-//    suspend fun deleteWithID(id: Int) = withContext(Dispatchers.IO) {
-//        recipeDAO.deleteRecipeWithID(id)
-//    }
 
     private fun RoomRecipe.toDomainModel(): Recipe {
         return Recipe(
-            uID = uID,
+            roomID = roomID,
+            firebaseID = firebaseID,
             title = title,
             author = author,
             ingredients = ingredients,
@@ -40,9 +38,10 @@ class Repository(private val recipeDAO: RecipeDAO) {
         )
     }
 
-    private fun Recipe.toRoomModel(): RoomRecipe {  //TODO: maybe change Recipe elements to not be nullable
+    private fun Recipe.toRoomModel(): RoomRecipe {
         return RoomRecipe(
-            uID = uID!!,
+            roomID = roomID,
+            firebaseID = firebaseID!!,
             author = author!!,
             title = title!!,
             ingredients = ingredients!!,

@@ -28,6 +28,7 @@
     <string name="create_recipe_method_hint">Method</string>
     <string name="create_recipe_success">Recipe uploaded!</string>
     <string name="create_recipe_add_image">Add image before uploading</string>
+    <string name="create_recipe_downloadURI_is_null">Something went wrong, please try again later</string>
 
     <string name="nav_header_title_no_auth">Anonymous</string>
     <string name="nav_header_subtitle_no_auth">-</string>
@@ -53,6 +54,8 @@
     <string name="fragment_deleteOnlineRecipeNoInternetAccess">You need internet access to delete items</string>
     <string name="toast_deleteOnlineRecipeSuccess">Recipe deleted from online storage</string>
     <string name="toast_deleteOnlineRecipeFailed">Error deleting recipe, check for problems</string>
+    <string name="toast_deleteOfflineRecipeSuccess">Recipe deleted from offline storage</string>
+    <string name="toast_deleteOfflineRecipeFailed">Error deleting recipe, check for problems</string>
 
 
 </resources>

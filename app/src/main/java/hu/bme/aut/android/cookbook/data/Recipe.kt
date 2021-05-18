@@ -3,35 +3,38 @@ package hu.bme.aut.android.cookbook.data
 import android.os.Parcel
 import android.os.Parcelable
 
-class Recipe (
-    var uID: String? = null,
+class Recipe(
+    var roomID: Int = 0,
+    var firebaseID: String? = null,
     var author: String? = null,
     var title: String? = null,
     var ingredients: String? = null,
     var method: String? = null,
     var imageUrl: String? = null,
-    var rating: Int? = null
-//    var comments: String? = null,
+    var rating: Int = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as? Int
+        parcel.readInt()
     ) {
     }
 
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(uID)
+        parcel.writeInt(roomID)
+        parcel.writeString(firebaseID)
         parcel.writeString(author)
         parcel.writeString(title)
         parcel.writeString(ingredients)
         parcel.writeString(method)
         parcel.writeString(imageUrl)
-        parcel.writeValue(rating)
+        parcel.writeInt(rating)
     }
 
     override fun describeContents(): Int {
