@@ -157,6 +157,7 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             FirebaseAuth.getInstance().signOut()
             updateDrawerInformation()
             Toast.makeText(this, R.string.authentication_logout_successfull, Toast.LENGTH_LONG).show()
+            supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             startActivity(Intent(this, RecipesActivity::class.java))
         }
     }
