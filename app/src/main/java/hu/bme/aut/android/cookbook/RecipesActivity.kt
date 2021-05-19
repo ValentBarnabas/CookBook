@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +23,9 @@ import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 //TODO: #1 rate recipe with POPUP ALERT
 //TODO: #2 add offline and anonymous recipe adding :! Csere a MyRecipesFragment-ben a tarolast, nem URL-t tarol egyik sem, mindegyik deviceon levo kepnek az utvonalat. Kesziteskor elmeneti a kepet egy helyre, es az utvonalat eltarolja stringben.
 //TODO: feltolteskor ezt adja meg, hogy ebbol csinaljanak glideolhato dolgot, letolteskor pedig a glideolhatot menti el eszkozre, es tarolja el az utvonalat. Szoval recept letrehozaskor devicera elmenti a kepet, es utvonalat tarol, torlesnel kitorli a kepet is, megjelenitesnel pedig a filet jeleniti meg oda
+//TODO: offline es anonymous modon csak perzisztens tarolora lehet menteni
 //TODO: #3 share/upload (with popup window, firebaseID == 0)
+
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 //TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
@@ -68,12 +71,15 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 openLogoutDialog()
             }
             R.id.nav_login -> {
+                supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, LoginFragment()).commit()
             }
             R.id.nav_myRecipes -> {
+                supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, MyRecipesFragment()).commit()
             }
             R.id.nav_othersRecipes -> {
+                supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, OthersRecipesFragment()).commit()
             }
         }

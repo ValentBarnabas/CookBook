@@ -35,6 +35,7 @@
 
     <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
     <string name="fragment_viewfirebaserecipe_rateBtn">Like</string>
+    <string name="fragment_viewFirebaserecipe_rateMessage">Please only like a recipe once per making</string>
 
     <string name="fragment_logoutdialog_tvText">Are you sure you want to log out?</string>
     <string name="fragment_logoutdialog_negativeOption">Cancel</string>

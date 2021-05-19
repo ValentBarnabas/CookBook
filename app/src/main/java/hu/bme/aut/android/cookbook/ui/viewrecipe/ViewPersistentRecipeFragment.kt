@@ -98,10 +98,26 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
             if (tag == "delete for myself") {
                 deleteOffline()
             } else if (tag == "delete for others") {
-                deleteOnline()
+                if(isOnline(requireContext())) {
+                    if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
+                        deleteOnline()
+                    } else {
+                        Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeUnauthorizedUser, Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeNoInternetAccess, Toast.LENGTH_LONG).show()
+                }
             } else if (tag == "delete for everyone") {
-                deleteOnline()
-                deleteOffline()
+                if(isOnline(requireContext())) {
+                    if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
+                        deleteOnline()
+                        deleteOffline()
+                    } else {
+                        Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeUnauthorizedUser, Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeNoInternetAccess, Toast.LENGTH_LONG).show()
+                }
             }
             (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
         }
@@ -112,22 +128,12 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
         Toast.makeText(requireContext(), R.string.toast_deleteOfflineRecipeSuccess, Toast.LENGTH_LONG).show()
     }
     private fun deleteOnline() {
-        if(isOnline(requireContext())) {
-            if(FirebaseAuth.getInstance().currentUser != null && currRecipe.author == FirebaseAuth.getInstance().currentUser.displayName) {
-                Firebase.firestore.collection("recipes").document(currRecipe.firebaseID!!).delete()
-                    .addOnCompleteListener(OnCompleteListener {
-                        if(it.isSuccessful) {
-                            Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeSuccess, Toast.LENGTH_LONG).show()
-                        } else {
-                            Toast.makeText(requireContext(), R.string.toast_deleteOnlineRecipeFailed, Toast.LENGTH_LONG).show()
-                        }
-                    })
-            } else {
-                Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeUnauthorizedUser, Toast.LENGTH_LONG).show()
-            }
-        } else {
-            Toast.makeText(requireContext(), R.string.fragment_deleteOnlineRecipeNoInternetAccess, Toast.LENGTH_LONG).show()
-        }
-
+        Firebase.firestore.collection("recipes").document(currRecipe.firebaseID!!).delete()
+            .addOnCompleteListener(OnCompleteListener {
+                if (it.isSuccessful) { Toast.makeText(requireContext(),R.string.toast_deleteOnlineRecipeSuccess, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(requireContext(),R.string.toast_deleteOnlineRecipeFailed,Toast.LENGTH_LONG).show()
+                }
+            })
     }
 }

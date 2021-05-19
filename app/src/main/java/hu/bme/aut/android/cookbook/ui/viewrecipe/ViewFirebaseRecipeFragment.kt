@@ -1,5 +1,6 @@
 package hu.bme.aut.android.cookbook.ui.viewrecipe
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,13 +62,14 @@ class ViewFirebaseRecipeFragment : Fragment() {
                 }.addOnSuccessListener {
                     likedAlready = true
                     binding.fragmentViewFirebaseRecipeTvRating.text = newRating.toString()
+                    binding.fragmentViewFirebaseRecipeFabLike.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.grey_font))
                 }.addOnFailureListener{
                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
                     likedAlready = false
                 }
                 likedAlready = true
             } else {
-                Toast.makeText(requireContext(), "Please only like a recipe once per making", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.fragment_viewFirebaserecipe_rateMessage, Toast.LENGTH_SHORT).show()
             }
         }
     }
