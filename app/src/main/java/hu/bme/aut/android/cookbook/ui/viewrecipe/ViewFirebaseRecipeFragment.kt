@@ -52,11 +52,7 @@ class ViewFirebaseRecipeFragment : Fragment() {
 
         binding.fragmentViewFirebaseRecipeFabLike.setOnClickListener {
             if(!likedAlready) {
-                val newRating = currRecipe.rating + 1
-                val updRecipe = Recipe(currRecipe.roomID, currRecipe.firebaseID, currRecipe.author, currRecipe.title, currRecipe.ingredients, currRecipe.method, currRecipe.imageUrl, newRating)
-
-                RecipeViewModel().update(updRecipe)
-
+                val newRating = currRecipe.rating?.plus(1)
                 val docRef = Firebase.firestore.collection("recipes").document(currRecipe.firebaseID.toString())
                 Firebase.firestore.runTransaction {
                     val snapshot = it.get(docRef)
@@ -64,7 +60,6 @@ class ViewFirebaseRecipeFragment : Fragment() {
                     it.update(docRef, "rating", newRating)
                 }.addOnSuccessListener {
                     likedAlready = true
-                    if(context != null) Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
                     binding.fragmentViewFirebaseRecipeTvRating.text = newRating.toString()
                 }.addOnFailureListener{
                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
@@ -72,7 +67,7 @@ class ViewFirebaseRecipeFragment : Fragment() {
                 }
                 likedAlready = true
             } else {
-                Toast.makeText(requireContext(), "Please only like a recipe once", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please only like a recipe once per making", Toast.LENGTH_SHORT).show()
             }
         }
     }

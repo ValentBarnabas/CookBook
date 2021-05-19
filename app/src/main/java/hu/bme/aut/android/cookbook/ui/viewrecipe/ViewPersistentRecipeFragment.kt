@@ -51,7 +51,6 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
 
         binding.fragmentViewPersistentRecipeTvTitle.text = currRecipe.title
         binding.fragmentViewPersistentRecipeTvAuthor.text = currRecipe.author
-        binding.fragmentViewPersistentRecipeTvRating.text = currRecipe.rating.toString()
         binding.fragmentViewPersistentRecipeTvIngredients.text = currRecipe.ingredients
         binding.fragmentViewPersistentRecipeTvMethod.text = currRecipe.method
 

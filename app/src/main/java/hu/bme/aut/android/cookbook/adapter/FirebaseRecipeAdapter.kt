@@ -15,17 +15,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.data.Recipe
-import hu.bme.aut.android.cookbook.databinding.CardRecipeBinding
+import hu.bme.aut.android.cookbook.databinding.CardRecipefirebaseBinding
 
-class RecipeAdapter(private val context: Context) :
-    ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder>(itemCallback) {
+class FirebaseRecipeAdapter(private val context: Context) :
+    ListAdapter<Recipe, FirebaseRecipeAdapter.RecipeViewHolder>(itemCallback) {
 
     private val recipeList: MutableList<Recipe> = mutableListOf()
     private var lastPosition = -1
 
     var itemClickListener: OnItemClickListener? = null
 
-    inner class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecipeViewHolder(binding: CardRecipefirebaseBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvTitle: TextView = binding.tvTitle
         val tvRating: TextView = binding.tvRating
         val imgRecipe: ImageView = binding.imgRecipe
@@ -41,7 +41,7 @@ class RecipeAdapter(private val context: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        RecipeViewHolder(CardRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        RecipeViewHolder(CardRecipefirebaseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val tmpPost = recipeList[position]

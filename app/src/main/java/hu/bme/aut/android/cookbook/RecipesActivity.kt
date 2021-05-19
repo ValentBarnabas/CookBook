@@ -19,10 +19,12 @@ import hu.bme.aut.android.cookbook.ui.dialogpopups.LogoutDialogFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
-//TODO: rate recipe with POPUP ALERT, share/upload (with popup window, firebaseID == 0)
-//TODO: add offline and anonymous recipe adding
+//TODO: #1 rate recipe with POPUP ALERT
+//TODO: #2 add offline and anonymous recipe adding :! Csere a MyRecipesFragment-ben a tarolast, nem URL-t tarol egyik sem, mindegyik deviceon levo kepnek az utvonalat. Kesziteskor elmeneti a kepet egy helyre, es az utvonalat eltarolja stringben.
+//TODO: feltolteskor ezt adja meg, hogy ebbol csinaljanak glideolhato dolgot, letolteskor pedig a glideolhatot menti el eszkozre, es tarolja el az utvonalat. Szoval recept letrehozaskor devicera elmenti a kepet, es utvonalat tarol, torlesnel kitorli a kepet is, megjelenitesnel pedig a filet jeleniti meg oda
+//TODO: #3 share/upload (with popup window, firebaseID == 0)
 
-//TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, egyseges kinezet, szebb szinek es elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
+//TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
 //TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, LogoutDialogFragment.ResultDialogListener {

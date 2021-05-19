@@ -11,8 +11,11 @@
         android:id="@+id/tvMyFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Recipes"
+        android:text="@string/fragment_myrecipes_title"
         android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -24,9 +27,10 @@
         android:id="@+id/rvMyRecipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
         android:padding="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/card_recipe"/>
+        tools:listitem="@layout/card_recipepersistent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddRecipe"

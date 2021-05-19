@@ -13,18 +13,18 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.cookbook.RecipesActivity
-import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
+import hu.bme.aut.android.cookbook.adapter.FirebaseRecipeAdapter
 import hu.bme.aut.android.cookbook.data.Recipe
 import hu.bme.aut.android.cookbook.databinding.FragmentOthersrecipesBinding
 import hu.bme.aut.android.cookbook.ui.createrecipe.CreateRecipeFragment
 import hu.bme.aut.android.cookbook.ui.viewrecipe.ViewFirebaseRecipeFragment
 
-class OthersRecipesFragment : Fragment(), RecipeAdapter.OnItemClickListener {
+class OthersRecipesFragment : Fragment(), FirebaseRecipeAdapter.OnItemClickListener {
 
     private var _binding: FragmentOthersrecipesBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var recipeAdapter : RecipeAdapter
+    private lateinit var recipeAdapter : FirebaseRecipeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,7 @@ class OthersRecipesFragment : Fragment(), RecipeAdapter.OnItemClickListener {
         _binding = FragmentOthersrecipesBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        recipeAdapter = RecipeAdapter(requireContext())
+        recipeAdapter = FirebaseRecipeAdapter(requireContext())
         recipeAdapter.itemClickListener = this
 
         binding.rvOthersRecipes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)

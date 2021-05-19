@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.data.Recipe
-import hu.bme.aut.android.cookbook.databinding.CardRecipeBinding
+import hu.bme.aut.android.cookbook.databinding.CardRecipepersistentBinding
 
 class PersistentRecipeAdapter(private val context: Context) :
     ListAdapter<Recipe, PersistentRecipeAdapter.RecipeViewHolder>(itemCallback) {
@@ -23,7 +21,7 @@ class PersistentRecipeAdapter(private val context: Context) :
 
     var itemClickListener: OnItemClickListener? = null
 
-    inner class RecipeViewHolder(binding: CardRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecipeViewHolder(binding: CardRecipepersistentBinding) : RecyclerView.ViewHolder(binding.root) {
         var binding = binding
         var recipe: Recipe? = null
         init {
@@ -33,14 +31,13 @@ class PersistentRecipeAdapter(private val context: Context) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RecipeViewHolder(CardRecipeBinding.inflate(LayoutInflater.from(parent.context), parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RecipeViewHolder(CardRecipepersistentBinding.inflate(LayoutInflater.from(parent.context), parent,false))
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val tmpRecipe = this.getItem(position)
 
         holder.recipe = tmpRecipe
         holder.binding.tvTitle.text = tmpRecipe.title
-        holder.binding.tvRating.text = tmpRecipe.rating.toString()
 
         if(tmpRecipe.imageUrl.isNullOrBlank()) {
             holder.binding.imgRecipe.visibility = View.GONE

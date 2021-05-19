@@ -11,7 +11,7 @@ class Recipe(
     var ingredients: String? = null,
     var method: String? = null,
     var imageUrl: String? = null,
-    var rating: Int = 0
+    var rating: Int? = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -34,7 +34,7 @@ class Recipe(
         parcel.writeString(ingredients)
         parcel.writeString(method)
         parcel.writeString(imageUrl)
-        parcel.writeInt(rating)
+        parcel.writeInt(rating!!)
     }
 
     override fun describeContents(): Int {
