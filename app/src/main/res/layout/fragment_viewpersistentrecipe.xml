@@ -10,24 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ImageView
             android:id="@+id/fragment_viewPersistentRecipe_ivImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:maxHeight="256dp"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/fragment_viewPersistentRecipe_tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:textSize="32dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_ivImage" />
 
@@ -35,28 +40,69 @@
             android:id="@+id/fragment_viewPersistentRecipe_tvAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:textSize="16dp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvTitle" />
+
+        <TextView
+            android:id="@+id/fragment_viewPersistentRecipe_tvIngredientTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_baseline_shopping_basket_24"
+            android:text="@string/fragment_viewPersistentRecipe_tvIngredientsTitle"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_viewPersistentRecipe_tvAuthor" />
 
         <TextView
             android:id="@+id/fragment_viewPersistentRecipe_tvIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:textSize="16dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintWidth_percent="0.86"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvAuthor" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvIngredientTitle" />
+
+        <TextView
+            android:id="@+id/fragment_viewPersistentRecipe_tvMethodTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_baseline_tips_and_updates_24"
+            android:text="@string/fragment_viewPersistentRecipe_tvMethodsTitle"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvIngredients" />
 
         <TextView
             android:id="@+id/fragment_viewPersistentRecipe_tvMethod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="32dp"
+            android:paddingBottom="32dp"
+            android:textSize="16dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintWidth_percent="0.86"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvIngredients" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPersistentRecipe_tvMethodTitle" />
 
         <Button
             android:id="@+id/fragment_viewPersistentRecipe_btnUpload"

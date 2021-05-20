@@ -7,6 +7,7 @@ class Recipe(
     var roomID: Int = 0,
     var firebaseID: String? = null,
     var author: String? = null,
+    var authorID: String? = null,
     var title: String? = null,
     var ingredients: String? = null,
     var method: String? = null,
@@ -15,6 +16,7 @@ class Recipe(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -30,6 +32,7 @@ class Recipe(
         parcel.writeInt(roomID)
         parcel.writeString(firebaseID)
         parcel.writeString(author)
+        parcel.writeString(authorID)
         parcel.writeString(title)
         parcel.writeString(ingredients)
         parcel.writeString(method)

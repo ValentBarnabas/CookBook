@@ -12,7 +12,7 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="menu_myRecipes">My Recipes</string>
-    <string name="menu_othersRecipes">Others Recipes</string>
+    <string name="menu_othersRecipes">Online Recipes</string>
     <string name="menu_login">Login</string>
     <string name="menu_logout">Logout</string>
     <string name="nav_createRecipe">Create Recipe</string>
@@ -22,20 +22,27 @@
     <string name="authentication_logout_successfull">Logout successfull</string>
 
     <string name="create_recipe_text">Add Recipe</string>
-    <string name="create_recipe_set_image">Set Image</string>
+    <string name="create_recipe_gallery_image">Upload image</string>
+    <string name="create_recipe_camera_image">Take image</string>
     <string name="create_recipe_title_hint">Title</string>
     <string name="create_recipe_ingredients_hint">Ingredients</string>
     <string name="create_recipe_method_hint">Method</string>
     <string name="create_recipe_success">Recipe uploaded!</string>
     <string name="create_recipe_add_image">Add image before uploading</string>
     <string name="create_recipe_downloadURI_is_null">Something went wrong, please try again later</string>
+    <string name="create_recipe_illegal_upload">We are sorry, it seems you either have no internet access, or not logged in. Try again after fixing these problems!</string>
 
     <string name="nav_header_title_no_auth">Anonymous</string>
     <string name="nav_header_subtitle_no_auth">-</string>
 
     <string name="fragment_viewpersistentrecipe_uploadBtn">Upload</string>
+    <string name="fragment_viewPersistentRecipe_tvIngredientsTitle">Ingredients</string>
+    <string name="fragment_viewPersistentRecipe_tvMethodsTitle">How to make it</string>
+    <string name="fragment_viewANYRecipe_RecipeBy">Recipe by</string>
+
     <string name="fragment_viewfirebaserecipe_rateBtn">Like</string>
     <string name="fragment_viewFirebaserecipe_rateMessage">Please only like a recipe once per making</string>
+
 
     <string name="fragment_logoutdialog_tvText">Are you sure you want to log out?</string>
     <string name="fragment_logoutdialog_negativeOption">Cancel</string>
@@ -47,9 +54,9 @@
     <string name="options_menu_persistentrecipefragment_deleteForMyself">Delete recipe for myself</string>
     <string name="options_menu_persistentrecipefragment_deleteForOthers">Delete recipe for others</string>
     <string name="options_menu_persistentrecipefragment_deleteForEveryone">Delete recipe for everyone</string>
-    <string name="popup_dialog_deleteForMyself">Are you sure you want to delete this recipe? (For you only)</string>
-    <string name="popup_dialog_deleteForOthers">Are you sure you want to delete this recipe? (For others only)</string>
-    <string name="popup_dialog_deleteForEveryone">Are you sure you want to delete this recipe? (For everyone)</string>
+    <string name="popup_dialog_deleteForMyself">Sure you want to delete this recipe? (For you only)</string>
+    <string name="popup_dialog_deleteForOthers">Sure you want to delete this recipe? (For online only)</string>
+    <string name="popup_dialog_deleteForEveryone">Sure you want to delete this recipe? (For everyone)</string>
 
     <string name="dialog_popup_negativeOption">No</string>
     <string name="dialog_popup_positiveOption">Yes</string>
@@ -61,5 +68,12 @@
     <string name="toast_deleteOfflineRecipeSuccess">Recipe deleted from offline storage</string>
     <string name="toast_deleteOfflineRecipeFailed">Error deleting recipe, check for problems</string>
 
+    <string name="popup_notif_like_title">Someone liked your recipe</string>
+    <string name="popup_notif_line_login_message">wants to let you know, your recipe is awesome!</string>
+    <string name="popup_notif_like_anon_message">Anonymous user wants to let you know, your recipe is awesome!</string>
+    <string name="popup_notif_recommend_recipe_title">Try out this awesome recipe!</string>
+    <string name="popup_notif_recommend_recipe_message_1">by</string>
+    <string name="popup_notif_recommend_recipe_message_2">received</string>
+    <string name="popup_notif_recommend_recipe_message_3">likes! Try it for yourself!</string>
 
 </resources>

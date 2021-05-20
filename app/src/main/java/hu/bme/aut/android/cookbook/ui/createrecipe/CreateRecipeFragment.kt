@@ -6,13 +6,14 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.cookbook.Extensions.isOnline
@@ -27,13 +28,11 @@ import java.io.ByteArrayOutputStream
 import java.net.URLEncoder
 import java.util.*
 
-
-//TODO: clean up adding items to firebase. Have only one upload, and put ifs in there (first create new object in firebase, use the firebaseID to create recipe, put that to room, get id from room
-
 class CreateRecipeFragment : Fragment() {
 
     companion object {
-        private const val REQUEST_CODE = 101
+        private const val REQUEST_CODE_TAKE = 101
+        private const val REQUEST_CODE_PICK = 102
     }
 
     private var _binding: FragmentCreateRecipeBinding? = null
@@ -48,7 +47,8 @@ class CreateRecipeFragment : Fragment() {
         val root = binding.root
 
         binding.btnSend.setOnClickListener { sendClick() }
-        binding.btnSetImage.setOnClickListener { attachClick() }
+        binding.btnImageFromGallery.setOnClickListener { galleryClick() }
+        binding.btnImageFromCamera.setOnClickListener { cameraClick() }
 
         return root
     }
@@ -77,11 +77,10 @@ class CreateRecipeFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val imageInBytes = baos.toByteArray()
 
-        if(isOnline(requireContext())) {                    //User has internet access, we can get downloadURI
+        if(isOnline(requireContext()) && FirebaseAuth.getInstance().currentUser != null) {                    //User has internet access, we can get downloadURI
             val storageReference = FirebaseStorage.getInstance().reference
             val newImageName = URLEncoder.encode(UUID.randomUUID().toString(), "UTF-8") + ".jpg"
             val newImageRef = storageReference.child("images/$newImageName")
-
 
             newImageRef.putBytes(imageInBytes)
                 .addOnFailureListener { exception ->
@@ -94,39 +93,52 @@ class CreateRecipeFragment : Fragment() {
                     newImageRef.downloadUrl
                 }
                 .addOnSuccessListener { downloadUri ->
+                    val downloadURI = downloadUri
 
-                    val db = Firebase.firestore
-                    val fbDocRef = db.collection("recipes").document()
+                    FirebaseInstallations.getInstance().getToken(true).addOnCompleteListener{
+//                        FirebaseService.token = it.result!!.token
+                        val authorToken = it.result!!.token
 
-                    var newRecipe: Recipe
-                    if(FirebaseAuth.getInstance().currentUser != null) {        //If use is logged in, will use his name as author
-                        newRecipe = Recipe(0, fbDocRef.id, FirebaseAuth.getInstance().currentUser.displayName, binding.etTitle.text.toString(), binding.etIngredients.text.toString(),
-                            binding.etMethod.text.toString(), downloadUri.toString(), 0)
-                    } else {                                                    //Else we use Anonymous
-                        newRecipe = Recipe(0, fbDocRef.id, "Anonymous", binding.etTitle.text.toString(), binding.etIngredients.text.toString(),
-                            binding.etMethod.text.toString(), downloadUri.toString(), 0)
+                        val db = Firebase.firestore
+                        val fbDocRef = db.collection("recipes").document()
+                        var newRecipe: Recipe
+                        if(FirebaseAuth.getInstance().currentUser != null) {        //If use is logged in, will use his name as author
+                            newRecipe = Recipe(0, fbDocRef.id, FirebaseAuth.getInstance().currentUser.displayName, authorToken, binding.etTitle.text.toString(), binding.etIngredients.text.toString(),
+                                binding.etMethod.text.toString(), downloadUri.toString(), 0)
+                        } else {                                                    //Else we use Anonymous
+                            newRecipe = Recipe(0, fbDocRef.id, "Anonymous", "0", binding.etTitle.text.toString(), binding.etIngredients.text.toString(),
+                                binding.etMethod.text.toString(), downloadUri.toString(), 0)
+                        }
+
+                        RecipeViewModel().insert(newRecipe)                //Now we add item to Room database to get item ID
+                        fbDocRef.set(newRecipe)
+                            .addOnSuccessListener {
+                                if(context != null) Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
+                                val fragMan = activity?.supportFragmentManager
+                                fragMan?.popBackStack()
+                                (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
+                            }
+                            .addOnFailureListener { e -> Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show() }
                     }
-
-                    RecipeViewModel().insert(newRecipe)                //Now we add item to Room database to get item ID
-                    fbDocRef.set(newRecipe)
-                    .addOnSuccessListener {
-                        if(context != null) Toast.makeText(requireContext(), requireContext()?.getString(R.string.create_recipe_success), Toast.LENGTH_LONG).show()
-                        val fragMan = activity?.supportFragmentManager
-                        fragMan?.popBackStack()
-                        (activity as RecipesActivity).swapToFragment(MyRecipesFragment())
-                    }
-                    .addOnFailureListener { e -> Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show() }
                 }
-        } else {            //user doesnt have internet access, cant get downloadURI
+        } else {            //user doesnt have internet access, cant get downloadURI, or not logged in
             //TODO: save on persistent storage and send toast about not being uploaded online -> offline mentesnel a file-t elmentjuk, es csak utvonalat tarolunk hozza, firebaseID ="0"
+            Toast.makeText(requireContext(), getString(R.string.create_recipe_illegal_upload), Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun attachClick() {
+    private fun cameraClick() {
+
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(takePictureIntent,
-            REQUEST_CODE
+            REQUEST_CODE_TAKE
         )
+    }
+    private fun galleryClick() {
+        val pickPictureIntent = Intent()
+        pickPictureIntent.type = "image/*"
+        pickPictureIntent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(pickPictureIntent, REQUEST_CODE_PICK)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {   //Handles camera response, and shows image in imageView
@@ -135,9 +147,15 @@ class CreateRecipeFragment : Fragment() {
             return
         }
 
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE_TAKE) {
             val imageBitmap = data?.extras?.get("data") as? Bitmap ?: return
             binding.ivImage.setImageBitmap(imageBitmap)
+            binding.ivImage.visibility = View.VISIBLE
+        }
+
+        else if (requestCode == REQUEST_CODE_PICK && data != null && data.data != null) {
+            val imageUri = data.data
+            binding.ivImage.setImageURI(imageUri)
             binding.ivImage.visibility = View.VISIBLE
         }
     }

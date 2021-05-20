@@ -50,7 +50,7 @@ class ViewPersistentRecipeFragment : Fragment(), DeleteRecipeDialogFragment.Resu
             .into(binding.fragmentViewPersistentRecipeIvImage)
 
         binding.fragmentViewPersistentRecipeTvTitle.text = currRecipe.title
-        binding.fragmentViewPersistentRecipeTvAuthor.text = currRecipe.author
+        binding.fragmentViewPersistentRecipeTvAuthor.text = getString(R.string.fragment_viewANYRecipe_RecipeBy) + " " + currRecipe.author
         binding.fragmentViewPersistentRecipeTvIngredients.text = currRecipe.ingredients
         binding.fragmentViewPersistentRecipeTvMethod.text = currRecipe.method
 

@@ -61,12 +61,19 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
+    implementation 'com.squareup.picasso:picasso:2.71828'               //Picasso for image loading
+
     def room_version = '2.2.6'                                          //room for persistent data storage
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'            //Coroutines for thread handling
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'                          //Retrofit implementation for internet messaging (popup messages)
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

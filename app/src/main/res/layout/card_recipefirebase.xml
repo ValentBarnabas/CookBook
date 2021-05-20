@@ -37,7 +37,8 @@
                 android:id="@+id/tvRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTitle"/>
+                android:layout_below="@+id/tvTitle"
+                android:drawableLeft="@drawable/card_recipefirebaselike" />
 
         </RelativeLayout>
 

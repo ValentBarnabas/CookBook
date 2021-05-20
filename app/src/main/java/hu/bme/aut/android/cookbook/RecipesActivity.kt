@@ -1,5 +1,6 @@
 package hu.bme.aut.android.cookbook
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -14,20 +15,24 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import hu.bme.aut.android.cookbook.databinding.ActivityRecipesBinding
+import hu.bme.aut.android.cookbook.notification.FirebaseService
+import hu.bme.aut.android.cookbook.notification.TOPIC
 import hu.bme.aut.android.cookbook.ui.login.LoginFragment
 import hu.bme.aut.android.cookbook.ui.dialogpopups.LogoutDialogFragment
 import hu.bme.aut.android.cookbook.ui.myrecipes.MyRecipesFragment
 import hu.bme.aut.android.cookbook.ui.othersrecipes.OthersRecipesFragment
 
 //TODO: #1 rate recipe with POPUP ALERT
-//TODO: #2 add offline and anonymous recipe adding :! Csere a MyRecipesFragment-ben a tarolast, nem URL-t tarol egyik sem, mindegyik deviceon levo kepnek az utvonalat. Kesziteskor elmeneti a kepet egy helyre, es az utvonalat eltarolja stringben.
-//TODO: feltolteskor ezt adja meg, hogy ebbol csinaljanak glideolhato dolgot, letolteskor pedig a glideolhatot menti el eszkozre, es tarolja el az utvonalat. Szoval recept letrehozaskor devicera elmenti a kepet, es utvonalat tarol, torlesnel kitorli a kepet is, megjelenitesnel pedig a filet jeleniti meg oda
-//TODO: offline es anonymous modon csak perzisztens tarolora lehet menteni
-//TODO: #3 share/upload (with popup window, firebaseID == 0)
+// vagy, ha egy adott etel eler mondjuk 100 likeot, akkor kuldunk mindenkinek egy ertesitest, hogy ez nagyon jora ertekelt, probaljak ki!!!
 
+//TODO: #2 add offline and anonymous recipe adding :! Csere a MyRecipesFragment-ben a tarolast, nem URL-t tarol egyik sem, mindegyik deviceon levo kepnek az utvonalat. Kesziteskor elmeneti a kepet egy helyre, es az utvonalat eltarolja stringben.
+// feltolteskor ezt adja meg, hogy ebbol csinaljanak glideolhato dolgot, letolteskor pedig a glideolhatot menti el eszkozre, es tarolja el az utvonalat. Szoval recept letrehozaskor devicera elmenti a kepet, es utvonalat tarol, torlesnel kitorli a kepet is, megjelenitesnel pedig a filet jeleniti meg oda
+// offline es anonymous modon csak perzisztens tarolora lehet menteni
 
 //TODO: szepitesek: bejelentkezesnel jelszo lathatosaga toggleelheto, elrendezesek. Uj recept kepe valaszthato galeriabol is, kep kitolti a helyet
+//TODO: share/upload (with popup window, firebaseID == 0)
 //TODO: edit, hogy lehessen ugy is hozzaadni, hogy kivalasztjuk, csak magunknak akarjuk, csak masoknak, vagy mindketto
 
 class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, LogoutDialogFragment.ResultDialogListener {
@@ -39,8 +44,11 @@ class RecipesActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipesBinding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        setContentView(binding.root)
+
+        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         binding.navView.setNavigationItemSelectedListener(this)

@@ -23,4 +23,5 @@
     <style name="Theme.CookBook.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CookBook.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
