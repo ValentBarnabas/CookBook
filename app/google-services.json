@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "776892185458",
+    "project_id": "bmecookbook",
+    "storage_bucket": "bmecookbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776892185458:android:ea38cc29f2f44e64f83beb",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.cookbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776892185458-m3v9mqpr0k9j7muusg1td86m4lokkv77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8xmF7gJGKubEuTmLALy9GvUPaK8EoYz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776892185458-m3v9mqpr0k9j7muusg1td86m4lokkv77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
